@@ -1,0 +1,8 @@
+SELECT 
+  SettingName AS [Name], 
+  DefaultValue AS [Default Setting], 
+  SettingValue AS [Current Setting] 
+FROM 
+  Orion.UDT.Setting 
+Where 
+  settingname like '%retention%'

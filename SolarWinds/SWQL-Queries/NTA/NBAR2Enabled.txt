@@ -1,0 +1,14 @@
+SELECT
+  f.node.DisplayName as [Node],
+  COUNT(DISTINCT f.IngressInterface.DisplayName) as UniqueInterfaces,
+  COUNT(*) as TotalRecords
+FROM
+  orion.netflow.flows f
+WHERE
+  f.AdvancedApplicationID > 0
+  AND ISNULL(f.AdvancedApplication.Name, '') != ''
+  AND DAYDIFF(f.ObservationTimestamp, GETUTCDATE()) = 0
+GROUP BY
+  f.node.DisplayName
+ORDER BY
+  TotalRecords DESC;

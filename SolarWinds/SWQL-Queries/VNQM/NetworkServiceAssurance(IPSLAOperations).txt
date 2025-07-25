@@ -1,0 +1,13 @@
+-- Need to verify results on a live system with data to confirm results
+
+SELECT 
+    o.OperationType AS [Operation Type], 
+    o.OperationStatus.OperationStatus AS [Operation Status], 
+    COUNT(*) AS [Total Operations]
+FROM 
+    Orion.IpSla.Operations AS o
+GROUP BY 
+    o.OperationType, 
+    o.OperationStatus.OperationStatus
+ORDER BY 
+    [Total Operations] DESC  -- Optionally, you can add this line to sort the results by count, making it easier to see which types/statuses are most common

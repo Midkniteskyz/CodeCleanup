@@ -1,0 +1,6 @@
+-- Count of IPAM DNS mismatches
+
+SELECT 
+    COUNT(*) AS [DNS Mismatch Count]  -- Total number of DNS mismatches
+FROM 
+    IPAM.DNSMismatch                  -- Table containing DNS mismatch entries

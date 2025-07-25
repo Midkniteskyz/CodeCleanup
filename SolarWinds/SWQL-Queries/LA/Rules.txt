@@ -1,0 +1,33 @@
+--SELECT 
+--    Name,  -- Column 1: Name of the processing rule
+--    CASE 
+--        WHEN ReadOnly = 'True' THEN 'Out-of-Box'  -- Column 2: Indicates if the rule is Out-of-Box or Custom based on ReadOnly field
+--        ELSE 'Custom' 
+--    END AS [Type], 
+--    CASE 
+--        WHEN Enabled = 'true' THEN 'Yes'  -- Column 3: Indicates if the rule is enabled ('Yes') or not ('No')
+--        ELSE 'No' 
+--    END AS [Enabled] 
+--FROM 
+--    Orion.OLM.ProcessingRule
+--ORDER BY 
+--    ReadOnly DESC,  -- Orders first by ReadOnly field in descending order ('True' first)
+--    Enabled DESC,   -- Then by Enabled field in descending order ('true' first)
+--    Name ASC;       -- Finally, by Name in ascending order
+
+SELECT
+CASE
+WHEN ReadOnly = 'True' THEN 'Out-of-Box' -- Classify as 'Out-of-Box' if ReadOnly is 'True'
+ELSE 'Custom'
+END AS [Type],
+COUNT(*) AS [Total Count], -- Total count of processing rules for each type
+COUNT(CASE WHEN Enabled = 'true' THEN 1 END) AS [Enabled Count] -- Count where Enabled is 'Yes'
+FROM
+Orion.OLM.ProcessingRule
+GROUP BY
+CASE
+WHEN ReadOnly = 'True' THEN 'Out-of-Box' -- Group by 'Out-of-Box' or 'Custom'
+ELSE 'Custom'
+END
+ORDER BY
+[Total Count] DESC; -- Order by the total count in descending order

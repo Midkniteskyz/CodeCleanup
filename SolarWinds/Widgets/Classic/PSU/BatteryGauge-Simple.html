@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .battery-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 300px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .battery-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .battery {
+            width: 120px;
+            height: 220px;
+            border: 4px solid #333;
+            border-radius: 12px;
+            position: relative;
+            background: #f0f0f0;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .battery-tip {
+            width: 40px;
+            height: 12px;
+            background: #333;
+            border-radius: 3px 3px 0 0;
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .battery-fill {
+            position: absolute;
+            bottom: 4px;
+            left: 4px;
+            right: 4px;
+            border-radius: 8px;
+            transition: all 0.5s ease;
+            background: linear-gradient(to top, #4CAF50, #8BC34A);
+        }
+
+        .battery-fill.low {
+            background: linear-gradient(to top, #f44336, #ff5722);
+        }
+
+        .battery-fill.medium {
+            background: linear-gradient(to top, #ff9800, #ffc107);
+        }
+
+        .battery-fill.high {
+            background: linear-gradient(to top, #4CAF50, #8BC34A);
+        }
+
+        .battery-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 0 0 3px rgba(255,255,255,0.8);
+            z-index: 10;
+        }
+
+        .battery-info {
+            text-align: center;
+            color: #333;
+        }
+
+        .battery-info h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+
+        .runtime-info {
+            font-size: 16px;
+            margin: 5px 0;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 20px;
+            border: 1px solid #ddd;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 16px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading {
+            color: #3498db;
+            font-size: 16px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="battery-container" id="batteryWidget">
+        <div class="loading">Loading UPS Battery Status...</div>
+    </div>
+
+    <script>
+        function formatRuntime(timeString) {
+            if (!timeString) return 'Unknown';
+            
+            // Handle both time format (HH:MM:SS) and seconds
+            if (typeof timeString === 'string' && timeString.includes(':')) {
+                // Parse HH:MM:SS format
+                const parts = timeString.split(':');
+                if (parts.length >= 2) {
+                    const hours = parseInt(parts[0], 10);
+                    const minutes = parseInt(parts[1], 10);
+                    
+                    if (hours > 0) {
+                        return `${hours}h ${minutes}m`;
+                    } else {
+                        return `${minutes}m`;
+                    }
+                }
+            } else if (!isNaN(timeString)) {
+                // Handle seconds format (fallback)
+                const seconds = parseFloat(timeString);
+                const hours = Math.floor(seconds / 3600);
+                const minutes = Math.floor((seconds % 3600) / 60);
+                
+                if (hours > 0) {
+                    return `${hours}h ${minutes}m`;
+                } else {
+                    return `${minutes}m`;
+                }
+            }
+            
+            return 'Unknown';
+        }
+
+        function getBatteryClass(percentage) {
+            if (percentage <= 20) return 'low';
+            if (percentage <= 50) return 'medium';
+            return 'high';
+        }
+
+        function renderBattery(batteryPercent, runtimeValue) {
+            const container = document.getElementById('batteryWidget');
+            
+            // Calculate fill height (max 208px accounting for padding)
+            const fillHeight = Math.max(0, Math.min(208, (batteryPercent / 100) * 208));
+            const batteryClass = getBatteryClass(batteryPercent);
+            const formattedRuntime = formatRuntime(runtimeValue);
+            
+            container.innerHTML = `
+                <div class="battery-info">
+                    <h3>UPS Battery Status</h3>
+                </div>
+                <div class="battery-wrapper">
+                    <div class="battery">
+                        <div class="battery-tip"></div>
+                        <div class="battery-fill ${batteryClass}" style="height: ${fillHeight}px;"></div>
+                        <div class="battery-percentage">${batteryPercent}%</div>
+                    </div>
+                </div>
+                <div class="battery-info">
+                    <div class="runtime-info">Runtime: ${formattedRuntime}</div>
+                </div>
+            `;
+        }
+
+        function fetchBatteryData() {
+            // Use the provided SWQL query
+            var swql = `
+                SELECT MAX(CASE WHEN CustomPollerName = 'upsAdvBatteryCapacity' THEN CurrentValue END) AS BatteryPercent,
+                       MAX(CASE WHEN CustomPollerName = 'upsAdvBatteryRunTimeRemaining' THEN CurrentValue END) AS RuntimeSeconds
+                FROM Orion.NPM.CustomPollerAssignment
+                WHERE NodeID = ${NodeID} AND CustomPollerName IN ('upsAdvBatteryCapacity', 'upsAdvBatteryRunTimeRemaining')
+            `;
+
+            $.ajax({
+                type: 'POST',
+                url: '/Orion/Services/Information.asmx/QueryWithParameters',
+                data: JSON.stringify({ query: swql, parameters: {} }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function(response) {
+                    const rows = response.d.Rows;
+                    
+                    if (rows.length > 0) {
+                        const batteryPercent = rows[0][0] !== null ? parseFloat(rows[0][0]) : 0;
+                        const runtimeValue = rows[0][1] !== null ? rows[0][1] : null;
+                        
+                        renderBattery(batteryPercent, runtimeValue);
+                    } else {
+                        document.getElementById('batteryWidget').innerHTML = 
+                            '<div class="error-message">No UPS battery data found</div>';
+                    }
+                },
+                error: function(xhr, status, error) {
+                    document.getElementById('batteryWidget').innerHTML = 
+                        '<div class="error-message">Error loading battery data: ' + error + '</div>';
+                }
+            });
+        }
+
+        // Load battery data when the page loads
+        $(document).ready(function() {
+            fetchBatteryData();
+            
+            // Refresh data every 30 seconds
+            setInterval(fetchBatteryData, 30000);
+        });
+    </script>
+</body>
+</html>

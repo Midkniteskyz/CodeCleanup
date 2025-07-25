@@ -1,0 +1,11 @@
+Goals
+
+Functions
+    - Check if iis is installed
+    - check if ftp is installed
+    - check if the firewall is configured
+    - Configure the iis site
+    - send a single file manually
+    - send all files in a directory
+    - Create a scheduled task
+    - 

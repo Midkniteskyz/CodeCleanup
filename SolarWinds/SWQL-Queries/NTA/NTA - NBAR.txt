@@ -1,0 +1,16 @@
+-- Counts the number of netflow entries per node and interface for the current day
+SELECT 
+    f.node.DisplayName AS [Node],  -- Display name of the node
+    f.IngressInterface.DisplayName AS [Interface],  -- Display name of the ingress interface
+    COUNT(*) AS [Number of Flows]  -- Count of flows meeting the criteria
+FROM 
+    Orion.Netflow.Flows AS f
+WHERE
+    f.AdvancedApplicationID > 0  -- Ensures there is an associated advanced application
+    AND ISNULL(f.AdvancedApplication.Name, '') != ''  -- Filters out flows with no named advanced application
+    AND DAYDIFF(f.ObservationTimestamp,GETUTCDATE()) = 0  -- Filters for flows observed today
+GROUP BY 
+    f.node.DisplayName, 
+    f.IngressInterface.DisplayName
+ORDER BY 
+    [Node], [Interface];  -- Orders results for better readability

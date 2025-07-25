@@ -1,0 +1,24 @@
+{
+    "payload": {
+      "summary": "${N=SwisEntity;M=Node.Caption} | Volume: ${N=SwisEntity;M=Caption;F=OriginalValue} | ${N=SwisEntity;M=VolumePercentUsed;F=Percent} used",
+      "source": "${N=SwisEntity;M=Caption}",
+      "severity": "critical",
+      "component": "${N=SwisEntity;M=MachineType}",
+      "custom_details": {
+        "Alert Name": "${N=Alerting;M=AlertName}",
+        "Description": "${N=Alerting;M=AlertMessage}",
+        "Volume Name": "${N=SwisEntity;M=Caption;F=OriginalValue}",
+        "Volume Percent Used": "${N=SwisEntity;M=VolumePercentUsed;F=Percent}",
+        "Volume Free Space": "${N=SwisEntity;M=VolumeSpaceAvailable}",
+        "Volume Total Size": "${N=SwisEntity;M=VolumeSize}",
+        "Trigger Time": "${N=Alerting;M=AlertTriggerTime;F=DateTime}",
+        "Node": "${N=SwisEntity;M=Node.Caption}",
+        "Node Availability": "${N=SwisEntity;M=StatusDescription}"
+      }
+    },
+    "routing_key": "fee2772f0c934907c0135a9915722732",
+    "dedup_key": "${N=SwisEntity;M=Caption;F=OriginalValue}_${N=SwisEntity;M=Caption}_${N=SwisEntity;M=MachineType}",
+    "event_action": "trigger",
+    "client": "SolarWinds Orion",
+    "client_url": "${N=SwisEntity;M=DetailsUrl}"
+  }

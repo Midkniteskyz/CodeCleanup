@@ -1,0 +1,130 @@
+<html>
+
+<body style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+  <style>
+    a {
+      color: #1a73e8;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+
+    .action-link {
+      display: inline-block;
+      padding: 6px 12px;
+      background-color: #1a73e8;
+      color: #fff !important;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .action-link:hover {
+      background-color: #125abd;
+    }
+  </style>
+
+  <h3 style="margin-bottom: 5px;">Alert Information</h3>
+  <table cellspacing="4">
+    <tr>
+      <td><b>Alert Name:</b></td>
+      <td>${N=Alerting;M=AlertName}</td>
+    </tr>
+    <tr>
+      <td><b>Severity:</b></td>
+      <td>${N=Alerting;M=Severity}</td>
+    </tr>
+    <tr>
+      <td><b>Triggered:</b></td>
+      <td>${N=Alerting;M=AlertTriggerTime;F=DateTime}</td>
+    </tr>
+    <tr>
+      <td><b>Details:</b></td>
+      <td><a href="${N=Alerting;M=AlertDetailsUrl}">View Alert Details</a></td>
+    </tr>
+    <tr>
+      <td><b>Acknowledge:</b></td>
+      <td><a class="action-link" href="${N=Alerting;M=AcknowledgeUrl}">Acknowledge This Alert</a></td>
+    </tr>
+    <tr>
+      <td><b>Polling Engine:</b></td>
+      <td>${N=SwisEntity;M=HardwareInfo.Node.Engine.ServerName}</td>
+    </tr>
+  </table>
+
+  <h3 style="margin-top: 20px; margin-bottom: 5px;">${N=SwisEntity;M=HardwareInfo.FullyQualifiedName}</h3>
+  <table cellspacing="4">
+    <tr>
+      <td><b>Hardware Problems:</b></td>
+      <td>${N=SwisEntity;M=HardwareInfo.CategoriesWithProblems}</td>
+    </tr>
+    <tr>
+      <td><b>Last Poll Time:</b></td>
+      <td>${N=SwisEntity;M=HardwareInfo.LastPollTime}</td>
+    </tr>
+    <tr>
+      <td><b>Last Poll Message:</b></td>
+      <td>${N=SwisEntity;M=HardwareInfo.LastPollMessage}</td>
+    </tr>
+    <tr>
+      <td><b>Disabled:</b></td>
+      <td>${N=SwisEntity;M=IsDisabled;F=TrueFalse}</td>
+    </tr>
+    <tr>
+      <td><b>Name:</b></td>
+      <td>${N=SwisEntity;M=Name}</td>
+    </tr>
+    <tr>
+      <td><b>Unique Name:</b></td>
+      <td>${N=SwisEntity;M=UniqueName}</td>
+    </tr>
+    <tr>
+      <td><b>Original Status:</b></td>
+      <td>${N=SwisEntity;M=OriginalStatus}</td>
+    </tr>
+    <tr>
+      <td><b>Current Status:</b></td>
+      <td>${N=SwisEntity;M=Status;F=Status}</td>
+    </tr>
+    <tr>
+      <td><b>Status Description:</b></td>
+      <td>${N=SwisEntity;M=StatusDescription}</td>
+    </tr>
+    <tr>
+      <td><b>Message:</b></td>
+      <td>${N=SwisEntity;M=Message}</td>
+    </tr>
+  </table>
+
+  <h3 style="margin-top: 20px; margin-bottom: 5px;">Node Details</h3>
+  <table cellspacing="4">
+    <tr>
+      <td><b>Name:</b></td>
+      <td><a href="${N=SwisEntity;M=HardwareInfo.Node.DetailsUrl}">${N=SwisEntity;M=HardwareInfo.Node.Caption}</a></td>
+    </tr>
+    <tr>
+      <td><b>IP Address:</b></td>
+      <td>${N=SwisEntity;M=HardwareInfo.Node.IP_Address}</td>
+    </tr>
+    <tr>
+      <td><b>Status:</b></td>
+      <td>${N=SwisEntity;M=HardwareInfo.Node.Status;F=Status}</td>
+    </tr>
+    <tr>
+      <td><b>Vendor:</b></td>
+      <td>${N=SwisEntity;M=HardwareInfo.Node.Vendor}</td>
+    </tr>
+    <tr>
+      <td><b>Machine Type:</b></td>
+      <td>${N=SwisEntity;M=HardwareInfo.Node.MachineType}</td>
+    </tr>
+    <tr>
+      <td><b>ServiceTag:</b></td>
+      <td>${N=SwisEntity;M=HardwareInfo.ServiceTag}</td>
+    </tr>
+  </table>
+
+</body>
+
+</html>

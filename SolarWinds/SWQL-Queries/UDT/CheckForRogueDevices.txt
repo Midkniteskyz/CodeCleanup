@@ -1,0 +1,42 @@
+-- Query to count the occurrences of rogue types in different tables
+SELECT
+    -- Identify the rogue type as 'Rogue DNS'
+    'Rogue DNS' AS Rogue_Type,
+    -- Count the occurrences of 'Rogue DNS' by summing 1 for each row where rogue = 'True'
+    SUM(CASE WHEN rogue = 'True' THEN 1 ELSE 0 END) AS [Total]
+FROM 
+    -- Table containing Rogue DNS alerts
+    Orion.UDT.RogueDNSAlert
+
+UNION ALL
+
+(SELECT
+    -- Identify the rogue type as 'Rogue Empty DNS'
+    'Rogue Empty DNS' AS Rogue_Type,
+    -- Count the occurrences of 'Rogue Empty DNS' by summing 1 for each row where rogue = '1'
+    SUM(CASE WHEN rogue = '1' THEN 1 ELSE 0 END) AS [Total]
+FROM 
+    -- Table containing Rogue Empty DNS alerts
+    Orion.UDT.RogueEmptyDNSAlert)
+
+UNION ALL
+
+(SELECT
+    -- Identify the rogue type as 'Rogue IP'
+    'Rogue IP' AS Rogue_Type,
+    -- Count the occurrences of 'Rogue IP' by summing 1 for each row where rogue = 'True'
+    SUM(CASE WHEN rogue = 'True' THEN 1 ELSE 0 END) AS [Total]
+FROM 
+    -- Table containing Rogue IP alerts
+    Orion.UDT.RogueIPAlert)
+
+UNION ALL
+
+(SELECT
+    -- Identify the rogue type as 'Rogue MAC'
+    'Rogue MAC' AS Rogue_Type,
+    -- Count the occurrences of 'Rogue MAC' by summing 1 for each row where rogue = 'True'
+    SUM(CASE WHEN rogue = 'True' THEN 1 ELSE 0 END) AS [Total]
+FROM 
+    -- Table containing Rogue MAC alerts
+    Orion.UDT.RogueMACAlert;)

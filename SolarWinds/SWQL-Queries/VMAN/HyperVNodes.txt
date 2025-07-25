@@ -1,0 +1,28 @@
+-- Query to retrieve information about VMware hosts and their management status
+
+SELECT
+    -- Host name
+    HostName,
+    
+    -- IP address of the host
+    IPAddress,
+    
+    -- Name of the VMware product
+    VMwareProductName,
+    
+    -- Version of the VMware product
+    VMwareProductVersion,
+    
+    -- Check if the host is managed as a node
+    CASE WHEN NodeID IS NOT NULL THEN 'Yes' ELSE 'No' END AS [Managed as Node]
+    
+FROM
+    Orion.VIM.Hosts
+
+WHERE
+    -- Filter to only include hosts with VMware products that have 'hyper-v' in their name
+    VMwareProductName LIKE '%hyper-v%'
+
+ORDER BY
+    -- Order the results by VMware product name
+    VMwareProductName;

@@ -1,0 +1,11 @@
+SELECT 
+    'Automatic' AS [Mapping Type],  -- Column 1: Mapping Type set to 'Manual'
+    COUNT(*) AS [Count]  -- Column 2: Count of nodes where Manual is 'true'
+FROM 
+    Orion.SRM.Topology AS t
+WHERE 
+    Manual = 'false'  -- Filter nodes where Manual is 'true'
+GROUP BY 
+    'Automatic'  -- Grouping only for 'Manual'
+ORDER BY 
+    [Mapping Type];  -- Optional: Order results by Mapping Type

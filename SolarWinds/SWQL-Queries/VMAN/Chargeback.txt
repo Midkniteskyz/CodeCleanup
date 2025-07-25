@@ -1,0 +1,8 @@
+-- Query to count the number of chargeback reports created
+
+SELECT
+    -- Count of Chargeback Reports Created
+    COUNT(Name) AS [Chargeback Reports Created]
+
+FROM
+    Orion.VIM.ChargebackReports;

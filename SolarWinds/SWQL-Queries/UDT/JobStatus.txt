@@ -1,0 +1,13 @@
+-- Selecting job type and counting success and error occurrences
+SELECT 
+    -- Concatenate 'Layer' with JobType to form the Job Type label
+    CONCAT('Layer ', JobType) AS [Job Type], 
+    -- Count the number of errors for each job type
+    SUM(CASE WHEN JobLastResult != 1 THEN 1 ELSE 0 END) AS [Error],
+    -- Count the number of successes for each job type
+    SUM(CASE WHEN JobLastResult = 1 THEN 1 ELSE 0 END) AS [Success]
+FROM 
+    -- Accessing the Orion.UDT.Job table
+    Orion.UDT.Job
+-- Grouping the results by JobType
+GROUP BY JobType;

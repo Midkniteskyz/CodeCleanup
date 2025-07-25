@@ -1,0 +1,19 @@
+-- Retrieve installed SolarWinds modules and licensing information
+
+SELECT
+    DisplayName AS [Module Name],         -- Friendly name of the installed module
+    LicenseName AS [License Name],        -- License type or key name
+    Version,                              -- Installed version of the module
+    CASE
+        WHEN IsEval = 'True' THEN 'X'     -- Flag as 'X' if it's an evaluation license
+        ELSE '-'                          -- Otherwise, mark as '-'
+    END AS [Evaluation],
+    DaysRemaining AS [Days Left],         -- Number of days left in eval (if applicable)
+    CASE
+        WHEN IsExpired = 'True' THEN 'X'  -- Flag as 'X' if the license is expired
+        ELSE '-'                          -- Otherwise, mark as '-'
+    END AS [Expired]
+
+FROM Orion.InstalledModule                 -- Source table for installed modules
+
+ORDER BY LicenseName                      -- Sort by license name for grouping

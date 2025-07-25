@@ -1,0 +1,10 @@
+-- Need to verify results on a live system with data to confirm results
+
+SELECT 
+    cm.Caption AS [Caption],  -- Describes the monitoring node caption
+    cm.CcmName AS [CCM Name],  -- Name of the CCM being monitored
+    cm.ClusterName AS [Cluster Name],  -- Name of the cluster if applicable
+    cm.Version AS [Version],  -- Version number of the software or device
+    cm.MonitoringType.Description AS [Monitoring Type]  -- Descriptive type of monitoring
+FROM 
+    Orion.IpSla.CCMMonitoring AS cm

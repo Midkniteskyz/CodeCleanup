@@ -1,0 +1,5 @@
+-- Need to verify results on a live system with data to confirm results
+
+SELECT
+    COUNT(SiteID) AS [Site Count]
+FROM Orion.IpSla.Sites

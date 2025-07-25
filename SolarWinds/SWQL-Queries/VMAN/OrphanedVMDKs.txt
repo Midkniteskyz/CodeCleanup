@@ -1,0 +1,8 @@
+-- Query to count the number of orphaned VMDK files
+
+SELECT
+    -- Count of Orphaned VMDK Files
+    COUNT(CASE WHEN Orphaned = 'True' THEN 1 END) AS [Orphaned VMDK Count]
+
+FROM
+    Orion.VIM.DiskFiles;

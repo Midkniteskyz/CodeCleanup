@@ -1,0 +1,52 @@
+<html>
+  <body style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+    <style>
+      a {
+        color: #1a73e8;
+        text-decoration: underline;
+        font-weight: bold;
+      }
+      .action-link {
+        display: inline-block;
+        padding: 6px 12px;
+        background-color: #1a73e8;
+        color: #fff !important;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 13px;
+        margin-top: 4px;
+      }
+      .action-link:hover {
+        background-color: #125abd;
+      }
+    </style>
+
+    <h3 style="margin-bottom: 5px;">Alert Information</h3>
+    <table cellspacing="4">
+      <tr><td><b>Alert Name:</b></td><td>${N=Alerting;M=AlertName}</td></tr>
+      <tr>
+        <td><b>Details:</b></td>
+        <td><a href="${N=Alerting;M=AlertDetailsUrl}">View Alert Details</a></td>
+      </tr>
+      <tr>
+        <td>
+          <b>
+            Down Time:
+          </b>
+        </td>
+        <td>${N=Alerting;M=DownTime}</td>
+      </tr>
+    </table>
+
+    <h3 style="margin-top: 20px; margin-bottom: 5px;">Node Details</h3>
+    <table cellspacing="4">
+      <tr><td><b>Name:</b></td><td><a href="${N=SwisEntity;M=DetailsUrl}">${N=SwisEntity;M=Caption}</a></td></tr>
+      <tr><td><b>IP Address:</b></td><td>${N=SwisEntity;M=IP_Address}</td></tr>
+      <tr><td><b>Status:</b></td><td>${N=SwisEntity;M=Status;F=Status}</td></tr>
+      <tr><td><b>Vendor:</b></td><td>${N=SwisEntity;M=Vendor}</td></tr>
+      <tr><td><b>Machine Type:</b></td><td>${N=SwisEntity;M=MachineType}</td></tr>
+    </table>
+
+  </body>
+</html>

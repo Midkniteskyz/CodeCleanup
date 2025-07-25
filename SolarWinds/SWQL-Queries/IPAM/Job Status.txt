@@ -1,0 +1,10 @@
+-- Selecting distinct scan types and counting the number of subnets for each scan type
+SELECT DISTINCT
+    s.GroupTypeText AS [Scan Type], -- Column 1: Scan Type from ipam.Subnet table
+    COUNT(si.SubnetId) AS [Subnets] -- Column 2: Count of unique SubnetIds from IPAM.ScanInstance
+FROM 
+    IPAM.ScanInstance AS si
+JOIN 
+    ipam.Subnet AS s ON s.SubnetId = si.SubnetId -- Joining IPAM.ScanInstance with ipam.Subnet on SubnetId
+GROUP BY 
+    s.GroupTypeText -- Grouping by Scan Type to aggregate counts per scan type

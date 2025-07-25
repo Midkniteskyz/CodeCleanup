@@ -1,0 +1,323 @@
+<HTML>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var swqlInterfaces = `
+    SELECT top 3
+    InterfaceID, name
+    FROM Orion.NPM.Interfaces i
+    where TypeDescription='Ethernet'
+    and i.status not in ('0','2')
+    and nodeid=${nodeid}
+    and i.InterfaceID not in (select distinct interfaceid
+    from orion.npm.InterfaceTraffic it
+    where daydiff(tolocal(it.DateTime),getdate())<7
+    and it.interfaceid=i.interfaceid
+    group by interfaceid
+    having avg(it.InMaxbps)=0 )
+    order by (i.Inbps+i.Outbps), index`;
+
+        var params = JSON.stringify({
+
+            query: swqlInterfaces,
+
+            parameters: {}
+        });
+
+
+        $.ajax({
+
+            type: 'POST',
+
+            url: '/Orion/Services/Information.asmx/QueryWithParameters',
+
+            data: params,
+
+            contentType: "application/json; charset=utf-8",
+
+            dataType: "json",
+
+            async: false,
+
+            global: false,
+
+            success: function (data) { Interfaces = data; }
+
+        });
+
+
+        $(document).ready(function () {
+
+            var foo = document.getElementById('foo')
+
+            var chartContainer;
+
+            for (var i = 0; i < Interfaces.d.Rows.length; i++) {
+
+                //console.log('1 - Interface ID: '+Interfaces.d.Rows[i][0]);
+
+                var swqlInterfaceData = "select concat(year(tolocal(ObservationTimeStamp)),'-', case when length(month(tolocal(ObservationTimeStamp)))=1 then concat('0',month(tolocal(ObservationTimeStamp))) else concat(month(tolocal(ObservationTimeStamp)),'') end,'-',case when length(day(tolocal(ObservationTimeStamp)))=1 then concat('0',day(tolocal(ObservationTimeStamp))) else concat(day(tolocal(ObservationTimeStamp)),'') end,' ',case when length(hour(tolocal(ObservationTimeStamp)))=1 then concat('0',hour(tolocal(ObservationTimeStamp))) else concat(hour(tolocal(ObservationTimeStamp)),'') end,':',case when length(minute(tolocal(ObservationTimeStamp)))=1 then concat('0',minute(tolocal(ObservationTimeStamp))) else concat(minute(tolocal(ObservationTimeStamp)),'') end,':',case when length(second(tolocal(ObservationTimeStamp)))=1 then concat('0',second(tolocal(ObservationTimeStamp))) else concat(second(tolocal(ObservationTimeStamp)),'') end) as [DateTime], round(it.InMaxbps,0) as InMaxbps, round(it.OutMaxbps,0) as OutMaxbps from Orion.NPM.InterfaceTraffic it where it.InterfaceID=" + Interfaces.d.Rows[i][0] + " and daydiff(tolocal(it.ObservationTimeStamp) ,getdate())<=7 order by tolocal(it.ObservationTimeStamp) asc"
+
+                var paramsInterfaceData = JSON.stringify({ query: swqlInterfaceData, parameters: {} });
+
+                var InterfaceData;
+
+                $.ajax({
+
+                    type: 'POST',
+
+                    url: '/Orion/Services/Information.asmx/QueryWithParameters',
+
+                    data: paramsInterfaceData,
+
+                    contentType: "application/json; charset=utf-8",
+
+                    dataType: "json",
+
+                    async: false,
+
+                    global: false,
+
+                    success: function (data) { InterfaceData = data; }
+
+                });
+
+                //console.log('2a - Interface ID: '+Interfaces.d.Rows[i][0]);
+
+                var Intin = [];
+
+                var Intout = [];
+
+
+                for (var j in InterfaceData.d.Rows) {
+
+                    if (InterfaceData.d.Rows[j][1] >= 0) {
+
+                        Intin.push([new Date(InterfaceData.d.Rows[j][0]).getTime(), InterfaceData.d.Rows[j][1]]);
+
+                        Intout.push([new Date(InterfaceData.d.Rows[j][0]).getTime(), InterfaceData.d.Rows[j][2]]);
+
+                    } // if
+
+                }; // for
+
+                chartContainer = document.createElement('div');
+
+                chartContainer.setAttribute('id', 'container' + (i + 1));
+
+                foo.appendChild(chartContainer);
+
+                Highcharts.chart(`container${i + 1}`, {
+
+                    chart: {
+
+                        height: 60,
+
+                        spacing: 5,
+
+                    },
+
+                    title: {
+
+                        enabled: true,
+
+                        text: Interfaces.d.Rows[i][1],
+
+                        margin: 0,
+
+                        style: { font: 'bold 10px "Trebuchet MS", Verdana, sans-serif' }
+
+                    },
+
+                    xAxis: {
+
+                        type: 'datetime',
+
+                        range: 24 * 3600 * 1000,
+
+                        useHTML: true,
+
+                        tickLength: 6,
+
+                        labels: {
+
+                            enabled: true,
+
+                            style: {
+
+                                fontSize: '7px',
+
+                                paddingTop: '0'
+
+                            }
+
+                        },
+
+                        dateTimeLabelFormats: {
+
+                            hour: '%I %p',
+
+                            minute: '%I:%M %p'
+
+                        },
+
+                    },
+
+                    yAxis: {
+
+                        opposite: false,
+
+                        min: 0, max: null, tickInterval: 25, alignTicks: false,
+
+                        title: { text: null },
+
+                        labels: {
+
+                            style: {
+
+                                fontSize: '7px'
+                            },
+
+                            formatter: function () { return bytes(this.value, true); }
+
+                        },
+
+                    },
+
+                    navigation: { buttonOptions: { enabled: false } },
+
+                    time: { useUTC: false },
+
+                    credits: { enabled: false },
+
+                    legend: { enabled: false },
+
+                    navigator: { enabled: false },
+
+                    exporting: { enabled: false },
+
+                    rangeSelector: { enabled: false },
+
+                    tooltip: {
+
+                        outside: true,
+
+                        split: false,
+
+                        shared: true,
+
+                        useHTML: true,
+
+                        valueDecimals: 0,
+
+                        style: { fontSize: '9px' },
+
+                        headerFormat: '<b>{point.x:%b %e %I:%M:%S %p}</b><br>',
+
+                        pointFormat: '<span style="color:{point.series.color}">{point.series.name}</span>: <b>{point.y}</b><br/>',
+
+                    },
+
+                    series: [
+
+                        {
+
+                            name: Interfaces.d.Rows[i][1],
+
+                            data: Intin,
+
+                            name: 'Rx',
+
+                            color: '#0097EB',
+
+                            turboThreshold: 10000
+
+                        },
+
+                        {
+
+                            name: Interfaces.d.Rows[i][2],
+
+                            data: Intout,
+
+                            name: 'Tx',
+
+                            color: '#FF00A3',
+
+                            turboThreshold: 10000
+
+                        }
+
+                    ]
+
+
+                }); // highcharts
+
+
+                function bytes(bytes, label) {
+
+                    if (bytes == 0) return '';
+
+                    var s = ['b', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb'];
+
+                    var e = Math.floor(Math.log(bytes) / Math.log(1024));
+
+                    var value = ((bytes / Math.pow(1024, Math.floor(e))).toFixed(0));
+
+                    e = (e < 0) ? (-e) : e;
+
+                    if (label) value += ' ' + s[e];
+
+                    return value;
+
+                }
+
+
+            };
+
+        });
+
+
+    });
+
+</script>
+
+
+<script>
+
+    function debounce(func) {
+
+        var timer;
+
+        return function (event) {
+
+            if (timer) clearTimeout(timer);
+
+            timer = setTimeout(func, 100, event);
+
+        };
+
+    }
+
+
+    window.addEventListener('resize', debounce(function (e) {
+
+        chart.setSize(window.innerWidth, window.innerWidth / 2.5);
+
+    }));
+
+</script>
+
+
+
+<body>
+
+    <div id="foo" style="min-height: 50px; overflow: hidden"></div>
+
+</body>
+
+</html>

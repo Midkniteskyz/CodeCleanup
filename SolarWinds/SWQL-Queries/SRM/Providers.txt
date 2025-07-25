@@ -1,0 +1,5 @@
+-- Counting the number of distinct ProviderID entries in the Orion.SRM.Providers table
+SELECT 
+    COUNT(DISTINCT ProviderID) AS [Providers Count]
+FROM 
+    Orion.SRM.Providers;

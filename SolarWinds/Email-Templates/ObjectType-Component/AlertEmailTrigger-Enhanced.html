@@ -1,0 +1,148 @@
+<html>
+
+<body style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+  <style>
+    a {
+      color: #1a73e8;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+
+    .action-link {
+      display: inline-block;
+      padding: 6px 12px;
+      background-color: #1a73e8;
+      color: #fff !important;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .action-link:hover {
+      background-color: #125abd;
+    }
+
+    .warning {
+      color: #fbbc04; /* yellow-orange */
+      font-weight: bold;
+    }
+
+    .critical {
+      color: #ea4335; /* red */
+      font-weight: bold;
+    }
+  </style>
+
+  <h3 style="margin-bottom: 5px;">Alert Information</h3>
+  <table cellspacing="4">
+    <tr>
+      <td><b>Alert Name:</b></td>
+      <td>${N=Alerting;M=AlertName}</td>
+    </tr>
+    <tr>
+      <td><b>Severity:</b></td>
+      <td>${N=Alerting;M=Severity}</td>
+    </tr>
+    <tr>
+      <td><b>Triggered:</b></td>
+      <td>${N=Alerting;M=AlertTriggerTime;F=DateTime}</td>
+    </tr>
+    <tr>
+      <td><b>Details:</b></td>
+      <td><a href="${N=Alerting;M=AlertDetailsUrl}">View Alert Details</a></td>
+    </tr>
+    <tr>
+      <td><b>Acknowledge:</b></td>
+      <td><a class="action-link" href="${N=Alerting;M=AcknowledgeUrl}">Acknowledge This Alert</a></td>
+    </tr>
+    <tr>
+      <td><b>Polling Engine:</b></td>
+      <td>${N=SwisEntity;M=Application.Node.Engine.ServerName}</td>
+    </tr>
+  </table>
+
+  <h3 style="margin-top: 20px; margin-bottom: 5px;">Component Details</h3>
+  <table cellspacing="4">
+    <tr>
+      <td><b>Component Name:</b></td>
+      <td>${N=SwisEntity;M=ComponentAlert.ComponentName}</td>
+    </tr>
+    <tr>
+      <td><b>Process Name</b></td>
+      <td>${N=SwisEntity;M=ComponentAlert.ProcessName}</td>
+    </tr>
+    <tr>
+      <td><b>Status</b></td>
+      <td>${N=SwisEntity;M=Status;F=Status}</td>
+    </tr>
+    <tr>
+      <td><b>Last Time Up:</b></td>
+      <td>${N=SwisEntity;M=ComponentAlert.LastTimeUp}</td>
+    </tr>
+    <tr>
+      <td><b>CPU Usage:</b></td>
+      <td>${N=SwisEntity;M=ComponentAlert.PercentCPU} | (<span class="warning">${N=SwisEntity;M=ComponentAlertThresholds.ThresholdCPUWarning}</span>)/(<span class="critical">${N=SwisEntity;M=ComponentAlertThresholds.ThresholdCPUCritical}</span>) </td>
+    </tr>
+    <tr>
+      <td><b>Memory Usage (Virtual):</b></td>
+      <td>${N=SwisEntity;M=ComponentAlert.PercentVirtualMemory} | (<span class="warning">${N=SwisEntity;M=ComponentAlertThresholds.ThresholdVirtualMemoryWarning}</span>)/(<span class="critical">${N=SwisEntity;M=ComponentAlertThresholds.ThresholdVirtualMemoryCritical}</span>) </td>
+    </tr>
+    <tr>
+      <td><b>Memory Usage (Physical):</b></td>
+      <td>${N=SwisEntity;M=ComponentAlert.PercentMemory} | (<span class="warning">${N=SwisEntity;M=ComponentAlertThresholds.ThresholdPhysicalMemoryWarning}</span>)/(<span class="critical">${N=SwisEntity;M=ComponentAlertThresholds.ThresholdPhysicalMemoryCritical}</span>) </td>
+    </tr>
+  </table>
+
+  <h3 style="margin-top: 20px; margin-bottom: 5px;">Application Details</h3>
+  <table cellspacing="4">
+    <tr>
+      <td><b>Application Name:</b></td>
+      <td><a href="${N=SwisEntity;M=Application.DetailsUrl}"></a>${N=SwisEntity;M=Application.ApplicationAlert.ApplicationName}</td>
+    </tr>
+    <tr>
+      <td><b>Last Time Up:</b></td>
+      <td>${N=SwisEntity;M=Application.CurrentStatus.LastTimeUp}</td>
+    </tr>
+    <tr>
+      <td><b>Status</b></td>
+      <td>${N=SwisEntity;M=Application.Status;F=Status}</td>
+    </tr>
+  </table>
+
+  <h3 style="margin-top: 20px; margin-bottom: 5px;">Node Details</h3>
+  <table cellspacing="4">
+    <tr>
+      <td><b>Name:</b></td>
+      <td><a href="${N=SwisEntity;M=Application.Node.DetailsUrl}">${N=SwisEntity;M=Application.Node.Caption}</a></td>
+    </tr>
+    <tr>
+      <td><b>IP Address:</b></td>
+      <td>${N=SwisEntity;M=Application.Node.IP_Address}</td>
+    </tr>
+    <tr>
+      <td><b>Status:</b></td>
+      <td>${N=SwisEntity;M=Application.Node.Status;F=Status}</td>
+    </tr>
+    <tr>
+      <td><b>Vendor:</b></td>
+      <td>${N=SwisEntity;M=Application.Node.Vendor}</td>
+    </tr>
+    <tr>
+      <td><b>Machine Type:</b></td>
+      <td>${N=SwisEntity;M=Application.Node.MachineType}</td>
+    </tr>
+    <tr>
+      <td><b>CPU Usage:</b></td>
+      <td>${N=SwisEntity;M=Application.Node.CPULoad;F=Percent}</td>
+    </tr>
+    <tr>
+      <td><b>Memory Usage:</b></td>
+      <td>${N=SwisEntity;M=Application.Node.PercentMemoryUsed;F=Percent}</td>
+    </tr>
+  </table>
+
+</body>
+
+</html>

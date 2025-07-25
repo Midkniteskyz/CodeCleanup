@@ -1,0 +1,3 @@
+SELECT DISTINCT COUNT(MACAddress) AS [Devices Whitelisted]
+FROM Orion.UDT.Endpoint
+WHERE Rogue = 'False'

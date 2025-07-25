@@ -1,0 +1,12 @@
+SELECT 
+    CASE
+        WHEN Multiport = 0 THEN 'Single-Port'
+        ELSE 'Multi-Port'
+    END AS [Application Type],
+    count(*) as [Monitoring]
+
+FROM Orion.Netflow.Applications
+
+Where enabled = 1
+
+Group By MultiPort

@@ -1,0 +1,2 @@
+SELECT Name, Description
+FROM Orion.OLM.LogProfile

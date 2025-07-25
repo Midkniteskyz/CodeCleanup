@@ -1,0 +1,15 @@
+SELECT
+    COUNT(NodeID) AS [Total],
+    CASE
+        WHEN LastScanResult = 1 THEN 'Up'
+        ELSE 'Failed'
+    END AS [Polling Status]
+FROM
+    Orion.UDT.NodeCapability
+WHERE
+    Capability = '8'
+GROUP BY
+    CASE
+        WHEN LastScanResult = 1 THEN 'Up'
+        ELSE 'Failed'
+    END

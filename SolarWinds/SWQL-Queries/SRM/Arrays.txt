@@ -1,0 +1,5 @@
+-- Counting the number of distinct StorageArrayID entries in the Orion.SRM.StorageArrays table
+SELECT 
+    COUNT(DISTINCT StorageArrayID) AS [Storage Array Count]
+FROM 
+    Orion.SRM.StorageArrays;

@@ -1,0 +1,103 @@
+<!-- Highcharts Scripts -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+
+<!-- Layout container -->
+<div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+  <div id="gauge1" style="width: 300px; height: 250px;"></div>
+  <div id="gauge2" style="width: 300px; height: 250px;"></div>
+</div>
+
+<script>
+function renderVoltageGauge(containerId, title, voltage) {
+  Highcharts.chart(containerId, {
+    chart: {
+      type: 'gauge',
+      height: '80%',
+      backgroundColor: 'transparent'
+    },
+    title: { text: title },
+    pane: {
+      startAngle: -90,
+      endAngle: 89.9,
+      background: null,
+      center: ['50%', '75%'],
+      size: '110%'
+    },
+    yAxis: {
+      min: 190,
+      max: 270,
+      tickPixelInterval: 72,
+      tickPosition: 'inside',
+      tickLength: 20,
+      tickWidth: 2,
+      labels: {
+        distance: 20,
+        style: { fontSize: '14px' }
+      },
+      lineWidth: 0,
+      plotBands: [
+        { from: 190, to: 210, color: '#DF5353', thickness: 20 },
+        { from: 210, to: 219, color: '#DDDF0D', thickness: 20 },
+        { from: 220, to: 250, color: '#55BF3B', thickness: 20 },
+        { from: 251, to: 260, color: '#DDDF0D', thickness: 20 },
+        { from: 260, to: 270, color: '#DF5353', thickness: 20 }
+      ]
+    },
+    series: [{
+      name: 'Voltage',
+      data: [voltage],
+      tooltip: { valueSuffix: ' V' },
+      dataLabels: {
+        format: '{y} V',
+        borderWidth: 0,
+        color: '#333',
+        style: { fontSize: '16px' }
+      },
+      dial: {
+        radius: '80%',
+        backgroundColor: 'gray',
+        baseWidth: 12,
+        baseLength: '0%',
+        rearLength: '0%'
+      },
+      pivot: {
+        backgroundColor: 'gray',
+        radius: 6
+      }
+    }]
+  });
+}
+
+function fetchGaugeData(assignmentId, containerId, label) {
+  var swql = `
+    SELECT TOP 1 RawStatus
+    FROM Orion.NPM.CustomPollerStatistics
+    WHERE CustomPollerAssignmentID = '${assignmentId}'
+    ORDER BY DateTime DESC
+  `;
+
+  $.ajax({
+    type: 'POST',
+    url: '/Orion/Services/Information.asmx/QueryWithParameters',
+    data: JSON.stringify({ query: swql, parameters: {} }),
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    success: function(response) {
+      const rows = response.d.Rows;
+      const voltage = (rows.length && !isNaN(parseFloat(rows[0][0]))) ? parseFloat(rows[0][0]) : null;
+
+      if (voltage !== null) {
+        renderVoltageGauge(containerId, label, voltage);
+      } else {
+        document.getElementById(containerId).innerHTML = "<p>No data</p>";
+      }
+    }
+  });
+}
+
+// Load the gauges
+fetchGaugeData('a562f3cf-a1e5-484a-aca1-a36c1a827374', 'gauge1', 'UPS Input Line Voltage');
+fetchGaugeData('d3b9e8cb-e880-4505-8e73-8563e53c0561', 'gauge2', 'UPS Output Line Voltage');
+</script>

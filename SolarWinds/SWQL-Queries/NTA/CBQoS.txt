@@ -1,0 +1,7 @@
+SELECT 
+cs.node.Caption as [Node]
+,cs.Interface.Caption as [Interface]
+,cs.node.Engine.ServerName as [Engine]
+,enabled
+,tolocal(cs.LastTime) as [Last Time]
+FROM Orion.Netflow.CBQoSSource cs

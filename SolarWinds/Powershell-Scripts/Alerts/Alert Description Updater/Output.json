@@ -1,0 +1,152 @@
+﻿{
+    "@xmlns:i":  "http://www.w3.org/2001/XMLSchema-instance",
+    "@xmlns":  "http://schemas.datacontract.org/2004/07/SolarWinds.Orion.Core.Models.Alerting",
+    "AlertConditionShelve":  {
+                                 "ChainType":  {
+                                                   "#text":  "Trigger"
+                                               },
+                                 "AndThenTimeInterval":  {
+                                                             "@i:nil":  "true"
+                                                         },
+                                 "ConjunctionOperator":  {
+                                                             "#text":  "None"
+                                                         },
+                                 "ObjectType":  {
+                                                    "#text":  "Node"
+                                                },
+                                 "SustainTime":  {
+                                                     "@i:nil":  "true"
+                                                 },
+                                 "NetObjectsMinCountThreshold":  {
+                                                                     "@i:nil":  "true"
+                                                                 },
+                                 "IsInvertedMinCountThreshold":  {
+                                                                     "#text":  "false"
+                                                                 },
+                                 "Configuration":  {
+                                                       "#text":  {
+                                                                     "Scope":  {
+                                                                                   "@xmlns:a":  "http://schemas.datacontract.org/2004/07/SolarWinds.Orion.Core.Models.Alerting",
+                                                                                   "NodeType":  {
+                                                                                                    "#text":  "Operator"
+                                                                                                },
+                                                                                   "Value":  {
+                                                                                                 "#text":  "AND"
+                                                                                             },
+                                                                                   "Child":  {
+                                                                                                 "Expr":  {
+                                                                                                              "NodeType":  {
+                                                                                                                               "#text":  "Operator"
+                                                                                                                           },
+                                                                                                              "Value":  {
+                                                                                                                            "#text":  "="
+                                                                                                                        },
+                                                                                                              "Child":  {
+                                                                                                                            "Expr":  [
+                                                                                                                                         {
+                                                                                                                                             "NodeType":  {
+                                                                                                                                                              "#text":  "Field"
+                                                                                                                                                          },
+                                                                                                                                             "Value":  {
+                                                                                                                                                           "#text":  "Orion.Nodes|Caption"
+                                                                                                                                                       },
+                                                                                                                                             "Child":  {
+                                                                                                                                                           "@i:nil":  "true"
+                                                                                                                                                       }
+                                                                                                                                         },
+                                                                                                                                         {
+                                                                                                                                             "NodeType":  {
+                                                                                                                                                              "#text":  "Constant"
+                                                                                                                                                          },
+                                                                                                                                             "Value":  {
+                                                                                                                                                           "#text":  "L1S-ASA-TRAINING"
+                                                                                                                                                       },
+                                                                                                                                             "Child":  {
+                                                                                                                                                           "@i:nil":  "true"
+                                                                                                                                                       }
+                                                                                                                                         }
+                                                                                                                                     ]
+                                                                                                                        }
+                                                                                                          }
+                                                                                             }
+                                                                               },
+                                                                     "@xmlns:i":  "http://www.w3.org/2001/XMLSchema-instance",
+                                                                     "ExprTree":  {
+                                                                                      "@xmlns:a":  "http://schemas.datacontract.org/2004/07/SolarWinds.Orion.Core.Models.Alerting",
+                                                                                      "NodeType":  {
+                                                                                                       "#text":  "Operator"
+                                                                                                   },
+                                                                                      "Value":  {
+                                                                                                    "#text":  "AND"
+                                                                                                },
+                                                                                      "Child":  {
+                                                                                                    "Expr":  [
+                                                                                                                 {
+                                                                                                                     "NodeType":  {
+                                                                                                                                      "#text":  "Operator"
+                                                                                                                                  },
+                                                                                                                     "Value":  {
+                                                                                                                                   "#text":  "="
+                                                                                                                               },
+                                                                                                                     "Child":  {
+                                                                                                                                   "Expr":  [
+                                                                                                                                                {
+                                                                                                                                                    "NodeType":  {
+                                                                                                                                                                     "#text":  "Field"
+                                                                                                                                                                 },
+                                                                                                                                                    "Value":  {
+                                                                                                                                                                  "#text":  "Orion.Nodes|Status"
+                                                                                                                                                              },
+                                                                                                                                                    "Child":  {
+                                                                                                                                                                  "@i:nil":  "true"
+                                                                                                                                                              }
+                                                                                                                                                },
+                                                                                                                                                {
+                                                                                                                                                    "NodeType":  {
+                                                                                                                                                                     "#text":  "Constant"
+                                                                                                                                                                 },
+                                                                                                                                                    "Value":  {
+                                                                                                                                                                  "#text":  "2"
+                                                                                                                                                              },
+                                                                                                                                                    "Child":  {
+                                                                                                                                                                  "@i:nil":  "true"
+                                                                                                                                                              }
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                               }
+                                                                                                                 },
+                                                                                                                 {
+                                                                                                                     "NodeType":  {
+                                                                                                                                      "#text":  "Operator"
+                                                                                                                                  },
+                                                                                                                     "Value":  {
+                                                                                                                                   "#text":  "ISNOTNULL"
+                                                                                                                               },
+                                                                                                                     "Child":  {
+                                                                                                                                   "Expr":  {
+                                                                                                                                                "NodeType":  {
+                                                                                                                                                                 "#text":  "Field"
+                                                                                                                                                             },
+                                                                                                                                                "Value":  {
+                                                                                                                                                              "#text":  "Orion.NodesCustomProperties|PrimaryContacts|CustomProperties"
+                                                                                                                                                          },
+                                                                                                                                                "Child":  {
+                                                                                                                                                              "@i:nil":  "true"
+                                                                                                                                                          }
+                                                                                                                                            }
+                                                                                                                               }
+                                                                                                                 }
+                                                                                                             ]
+                                                                                                }
+                                                                                  },
+                                                                     "@xmlns":  "http://schemas.datacontract.org/2004/07/SolarWinds.Orion.Core.Alerting.Plugins.Conditions.Dynamic",
+                                                                     "TimeWindow":  {
+                                                                                        "@i:nil":  "true"
+                                                                                    }
+                                                                 }
+                                                   },
+                                 "ConditionTypeID":  {
+                                                         "#text":  "Core.Dynamic"
+                                                     }
+                             }
+}

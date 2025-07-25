@@ -1,0 +1,13 @@
+-- Select the title, regular expression, enabled status, and .NET regular expression flag from Cirrus.CompareRegExs
+
+SELECT 
+  Title,                                  -- Title or name of the regular expression comparison rule
+  RegEx,                                  -- Regular expression used for comparison
+  Enabled,                                -- Indicates if the comparison rule is enabled 
+  DotNetRegEx                             -- .NET regular expression
+
+FROM 
+  Cirrus.CompareRegExs                    -- Cirrus.CompareRegExs table contains comparison rules for configuration
+
+ORDER BY 
+  Enabled                                 -- Order the results by the enabled status (disabled rules first)

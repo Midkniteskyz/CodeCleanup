@@ -1,0 +1,105 @@
+<html>
+<head>
+  <!-- DataTables CSS (CDN example). You can host locally if needed -->
+  <link rel="stylesheet" type="text/css" 
+        href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+</head>
+<body>
+
+<div id="myTableContainer">
+  <!-- We’ll insert our table dynamically or just place a table with an ID here -->
+  <table id="myDataTable" class="display" style="width:100%">
+      <thead>
+          <tr>
+              <th>InterfaceID</th>
+              <th>Name</th>
+          </tr>
+      </thead>
+      <tbody>
+          <!-- Rows will be populated by DataTables -->
+      </tbody>
+  </table>
+</div>
+
+<!-- jQuery (CDN example, check your SW version to see if it’s already loaded) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- DataTables JS (CDN example). You can host locally if needed -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+  // 1. Define your SWQL query
+  var swqlInterfaces = `
+      SELECT top 3
+        InterfaceID, 
+        Name
+      FROM Orion.NPM.Interfaces i
+      WHERE TypeDescription='Ethernet'
+        AND i.Status NOT IN ('0','2')
+        AND nodeid=${nodeid}
+        AND i.InterfaceID NOT IN (
+            SELECT DISTINCT interfaceid
+            FROM orion.npm.InterfaceTraffic it
+            WHERE daydiff(tolocal(it.DateTime), getdate()) < 7
+              AND it.interfaceid = i.interfaceid
+            GROUP BY interfaceid
+            HAVING AVG(it.InMaxbps)=0
+        )
+      ORDER BY (i.Inbps + i.Outbps), i.Index
+  `;
+
+  // 2. Prepare parameters for the SolarWinds Information Service POST
+  var params = JSON.stringify({
+    query: swqlInterfaces,
+    parameters: {}
+  });
+
+  // 3. Execute the SWQL Query
+  $.ajax({
+    type: 'POST',
+    url: '/Orion/Services/Information.asmx/QueryWithParameters',
+    data: params,
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    async: true,
+    success: function(data) {
+
+      // data.d.Rows will hold our query results
+      // Each row is an array of column values. Example: [InterfaceID, Name]
+      var rows = data.d.Rows;
+
+      // 4. Build an array of arrays in the format DataTables expects
+      //    (If your query has more columns, adjust accordingly)
+      var dataSet = [];
+      for (var i=0; i<rows.length; i++) {
+        var rowItem = rows[i];  // e.g. [InterfaceID, "Name"]
+        dataSet.push(rowItem);
+      }
+
+      // 5. Initialize the DataTable
+      //    If you already defined <table> headers above, you can omit columns config,
+      //    or you can define columns explicitly if you prefer.
+      $('#myDataTable').DataTable({
+        data: dataSet,
+        columns: [
+          { title: "InterfaceID" },
+          { title: "Name" }
+        ],
+        // Some optional settings:
+        paging: true,
+        searching: true,
+        info: true,
+        autoWidth: false
+      });
+    },
+    error: function(xhr, status, error) {
+      console.error("SWIS query failed:", error);
+    }
+  });
+
+});
+</script>
+</body>
+</html>

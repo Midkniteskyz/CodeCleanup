@@ -1,0 +1,13 @@
+-- Query to count the total number of powered-on VMs with Balloon Memory Load Percent greater than 1%
+
+SELECT
+    -- Total number of VMs meeting the criteria
+    COUNT(vm.[DisplayName]) AS [Total]
+
+FROM
+    Orion.VIM.VirtualMachines AS vm
+
+WHERE
+    -- VMs must be powered on and have Balloon Memory Load Percent greater than 1%
+    vm.[PowerState] = 'poweredOn'
+    AND vm.[BalloonMemloadPercent] > 1;

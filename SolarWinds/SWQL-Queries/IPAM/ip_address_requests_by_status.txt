@@ -1,0 +1,16 @@
+-- Summary of IP address requests by status in IPAM
+
+SELECT 
+    CASE
+        WHEN State = 2 THEN 'Pending'        -- Requests waiting for action
+        WHEN State = 3 THEN 'Completed'      -- Requests that have been fulfilled
+        ELSE 'Unknown'                       -- Other/unexpected statuses
+    END AS [Status],
+
+    COUNT(*) AS [Count]                      -- Count of requests for each status
+
+FROM 
+    IPAM.IPRequests                          -- Table storing IP request entries
+
+GROUP BY 
+    State;                                   -- Grouping by request state code

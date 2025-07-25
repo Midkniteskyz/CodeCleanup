@@ -1,0 +1,14 @@
+${N=SwisEntity;M=CustomPoller.UniqueName} set to ${N=SwisEntity;M=CustomPollerStatusScalar.Status}
+
+Custom Poller Details
+Last Change Time: ${N=SwisEntity;M=CustomPollerStatusScalar.DateTime}
+Last Poll Time: ${N=SwisEntity;M=CustomPoller.LastChange}
+Polled Value: ${N=SwisEntity;M=CustomPollerStatusScalar.Status}
+Preferred Value: ${N=SwisEntity;M=Node.CustomProperties.PA_Preferred_HA_Role}
+
+Node Details
+Node Name: ${N=SwisEntity;M=Node.Caption}
+IP Address: ${N=SwisEntity;M=Node.IP_Address}
+Status: ${N=SwisEntity;M=Node.Status;F=Status}
+Machine Vendor: ${N=SwisEntity;M=Node.Vendor}
+Machine Type: ${N=SwisEntity;M=Node.MachineType}

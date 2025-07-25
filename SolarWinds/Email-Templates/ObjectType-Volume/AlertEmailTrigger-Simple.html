@@ -1,0 +1,22 @@
+Alert Information
+Alert Name: ${N=Alerting;M=AlertName}
+Severity: ${N=Alerting;M=Severity}
+Alert Triggered On: ${N=Alerting;M=AlertTriggerTime;F=DateTime}
+Alert Details Link: ${N=Alerting;M=AlertDetailsUrl}
+Acknowledgement Link: ${N=Alerting;M=AcknowledgeUrl}
+Polling Engine: ${N=SwisEntity;M=Engine.ServerName}
+
+Node Details
+Node Name: ${N=SwisEntity;M=Node.Caption}
+IP Address: ${N=SwisEntity;M=Node.IP_Address}
+Status: ${N=SwisEntity;M=Node.Status;F=Status}
+Machine Vendor: ${N=SwisEntity;M=Node.Vendor}
+Machine Type: ${N=SwisEntity;M=Node.MachineType}
+
+Volume Details
+Volume Caption: ${N=SwisEntity;M=Caption}
+Volume Name: ${N=SwisEntity;M=FullName}
+Volume Status: ${N=SwisEntity;M=Status;F=Status}
+Volume Size: ${N=SwisEntity;M=VolumeSize;F=Bytes}
+Volume Usage: ${N=SwisEntity;M=VolumePercentUsed;F=Percent}
+Volume Remaining: ${N=SwisEntity;M=VolumeSpaceAvailable;F=Bytes}

@@ -1,0 +1,2 @@
+SELECT Name, Frequency, LastPlayedUtc, UnManaged, IsEnabled, statusdescription
+FROM Orion.SEUM.Transactions

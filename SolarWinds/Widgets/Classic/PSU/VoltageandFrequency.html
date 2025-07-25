@@ -1,0 +1,172 @@
+<!-- Highcharts dependencies -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+
+<style>
+  .highcharts-figure {
+    max-width: 1200px;
+    margin: 1em auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+  }
+  .gauge-container {
+    flex: 1 1 280px;
+    min-width: 280px;
+  }
+</style>
+
+<figure class="highcharts-figure">
+  <div class="gauge-container">
+    <div id="inputVoltageGauge"></div>
+    <p class="highcharts-description">UPS Input Voltage</p>
+  </div>
+  <div class="gauge-container">
+    <div id="inputFreqGauge"></div>
+    <p class="highcharts-description">UPS Input Frequency</p>
+  </div>
+  <div class="gauge-container">
+    <div id="outputVoltageGauge"></div>
+    <p class="highcharts-description">UPS Output Voltage</p>
+  </div>
+  <div class="gauge-container">
+    <div id="outputFreqGauge"></div>
+    <p class="highcharts-description">UPS Output Frequency</p>
+  </div>
+</figure>
+
+<script>
+  // Replace these with your actual CustomPollerAssignmentIDs
+  const assignmentIDs = {
+    inputVoltage:  'a562f3cf-a1e5-484a-aca1-a36c1a827374',
+    inputFrequency: '451ee4cf-7791-4233-9b94-a9d853d35c74',
+    outputVoltage: 'd3b9e8cb-e880-4505-8e73-8563e53c0561',
+    outputFrequency: 'b44f8ef2-17d5-4688-8852-ec885e280874'
+  };
+
+  function renderGauge(containerId, value, title, min, max, unit, bands) {
+    Highcharts.chart(containerId, {
+      chart: {
+        type: 'gauge',
+        height: '80%',
+        backgroundColor: 'transparent'
+      },
+      title: { text: title },
+      pane: {
+        startAngle: -90,
+        endAngle: 89.9,
+        background: null,
+        center: ['50%', '75%'],
+        size: '110%'
+      },
+      yAxis: {
+        min: min,
+        max: max,
+        tickPixelInterval: 72,
+        tickPosition: 'inside',
+        tickLength: 20,
+        tickWidth: 2,
+        tickColor: '#fff',
+        labels: {
+          distance: 20,
+          style: { fontSize: '14px' }
+        },
+        lineWidth: 0,
+        title: { text: unit },
+        plotBands: bands
+      },
+      series: [{
+        name: title,
+        data: [value],
+        tooltip: { valueSuffix: ` ${unit}` },
+        dataLabels: {
+          format: `{y} ${unit}`,
+          borderWidth: 0,
+          color: '#333333',
+          style: { fontSize: '16px' }
+        },
+        dial: {
+          radius: '80%',
+          backgroundColor: 'gray',
+          baseWidth: 12,
+          baseLength: '0%',
+          rearLength: '0%'
+        },
+        pivot: { backgroundColor: 'gray', radius: 6 }
+      }]
+    });
+  }
+
+  function fetchGaugeData(assignmentId, callback, containerId) {
+    const swql = `
+      SELECT TOP 1 RawStatus
+      FROM Orion.NPM.CustomPollerStatistics
+      WHERE CustomPollerAssignmentID = '${assignmentId}'
+      ORDER BY DateTime DESC
+    `;
+    const params = JSON.stringify({ query: swql, parameters: {} });
+
+    $.ajax({
+      type: 'POST',
+      url: '/Orion/Services/Information.asmx/QueryWithParameters',
+      data: params,
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      success: function (response) {
+        const rows = response.d.Rows;
+        const value = (rows.length && !isNaN(parseFloat(rows[0][0]))) ? parseFloat(rows[0][0]) : null;
+        callback(value);
+      },
+      error: function (err) {
+        console.error(`SWIS query failed for ${assignmentId}`, err);
+        document.getElementById(containerId).innerHTML = "<p>Error loading data</p>";
+      }
+    });
+  }
+
+  // INPUT VOLTAGE
+  fetchGaugeData(assignmentIDs.inputVoltage, function (val) {
+    renderGauge('inputVoltageGauge', val, 'Input Voltage', 190, 270, 'V', [
+      { from: 190, to: 210, color: '#DF5353' },
+      { from: 210, to: 219, color: '#DDDF0D' },
+      { from: 220, to: 250, color: '#55BF3B' },
+      { from: 251, to: 260, color: '#DDDF0D' },
+      { from: 260, to: 270, color: '#DF5353' }
+    ]);
+  }, 'inputVoltageGauge');
+
+  // INPUT FREQUENCY
+  fetchGaugeData(assignmentIDs.inputFrequency, function (val) {
+    renderGauge('inputFreqGauge', val, 'Input Frequency', 0, 70, 'Hz', [
+      { from: 0, to: 45, color: '#DF5353' },
+      { from: 45, to: 47, color: '#DDDF0D' },
+      { from: 47, to: 63, color: '#55BF3B' },
+      { from: 63, to: 65, color: '#DDDF0D' },
+      { from: 65, to: 70, color: '#DF5353' }
+    ]);
+  }, 'inputFreqGauge');
+
+  // OUTPUT VOLTAGE
+  fetchGaugeData(assignmentIDs.outputVoltage, function (val) {
+    renderGauge('outputVoltageGauge', val, 'Output Voltage', 190, 270, 'V', [
+      { from: 190, to: 210, color: '#DF5353' },
+      { from: 210, to: 219, color: '#DDDF0D' },
+      { from: 220, to: 250, color: '#55BF3B' },
+      { from: 251, to: 260, color: '#DDDF0D' },
+      { from: 260, to: 270, color: '#DF5353' }
+    ]);
+  }, 'outputVoltageGauge');
+
+  // OUTPUT FREQUENCY
+  fetchGaugeData(assignmentIDs.outputFrequency, function (val) {
+    renderGauge('outputFreqGauge', val, 'Output Frequency', 0, 70, 'Hz', [
+      { from: 0, to: 45, color: '#DF5353' },
+      { from: 45, to: 47, color: '#DDDF0D' },
+      { from: 47, to: 63, color: '#55BF3B' },
+      { from: 63, to: 65, color: '#DDDF0D' },
+      { from: 65, to: 70, color: '#DF5353' }
+    ]);
+  }, 'outputFreqGauge');
+</script>

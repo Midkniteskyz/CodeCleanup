@@ -1,0 +1,25 @@
+SELECT
+    -- Determine the type of watchlist item (MAC Address, IP Address, Hostname, Username)
+    CASE
+        WHEN wl.WatchItemType = 1 THEN 'MAC Address'
+        WHEN wl.WatchItemType = 2 THEN 'IP Address'
+        WHEN wl.WatchItemType = 3 THEN 'Hostname'
+        WHEN wl.WatchItemType = 4 THEN 'Username'
+        ELSE 'Unknown'
+    END AS Watchlist_Item_Type,
+    -- Count the total number of each type of watchlist item
+    COUNT(*) AS Count_of_Each_Type,
+    -- Count the number of found items for each type
+    SUM(CASE WHEN wla.IsFound = '1' THEN 1 ELSE 0 END) AS Count_of_Found,
+    -- Count the number of active items for each type
+    SUM(CASE WHEN wla.IsActive = '1' THEN 1 ELSE 0 END) AS Count_of_Active
+FROM 
+    -- Join the watchlist tables to retrieve the necessary data
+    Orion.UDT.WatchList AS wl
+JOIN 
+    Orion.UDT.WatchListAggregated AS wla ON wla.WatchID = wl.WatchID
+JOIN 
+    Orion.UDT.WatchListPresent AS wp ON wp.WatchID = wl.WatchID
+GROUP BY
+    -- Group the results by the type of watchlist item
+    wl.WatchItemType;

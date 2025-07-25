@@ -1,0 +1,67 @@
+<!-- Dependencies -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.3.5/justgage.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Layout -->
+<div style="width: 300px; margin: auto; font-family: sans-serif;">
+  <div id="battery-gauge" style="width: 100%; height: 200px;"></div>
+  <div id="runtime-label" style="text-align: center; font-size: 16px;">Runtime: -- min</div>
+</div>
+
+<script>
+function fetchBatteryData(nodeId) {
+  const swql = `
+    SELECT 
+      MAX(CASE WHEN CustomPollerName = 'upsAdvBatteryCapacity' THEN CurrentValue END) AS BatteryPercent,
+      MAX(CASE WHEN CustomPollerName = 'upsAdvBatteryRunTimeRemaining' THEN CurrentValue END) AS RuntimeSeconds
+    FROM Orion.NPM.CustomPollerAssignment
+    WHERE NodeID = ${nodeId}
+      AND CustomPollerName IN ('upsAdvBatteryCapacity', 'upsAdvBatteryRunTimeRemaining')
+  `;
+
+  $.ajax({
+    type: "POST",
+    url: "/Orion/Services/Information.asmx/QueryWithParameters",
+    data: JSON.stringify({ query: swql, parameters: {} }),
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function (response) {
+      const row = response.d.Rows[0];
+      const batteryPercent = parseFloat(row.BatteryPercent);
+      const runtimeSeconds = parseFloat(row.RuntimeSeconds);
+      const runtimeMinutes = Math.round(runtimeSeconds / 60);
+
+      renderBatteryGauge(batteryPercent);
+      document.getElementById("runtime-label").innerText = `Runtime: ${runtimeMinutes} min`;
+    },
+    error: function (xhr, status, error) {
+      console.error("Failed to load SWQL data:", error);
+      document.getElementById("runtime-label").innerText = "Error loading data";
+    }
+  });
+}
+
+function renderBatteryGauge(value) {
+  new JustGage({
+    id: "battery-gauge",
+    value: value,
+    min: 0,
+    max: 100,
+    title: "Battery Charge",
+    label: "%",
+    levelColors: ["#FF4B4B", "#FFD700", "#00C851"],
+    levelColorsGradient: false,
+    pointer: true,
+    gaugeWidthScale: 0.6,
+    customSectors: [
+      { color: "#FF4B4B", lo: 0, hi: 30 },
+      { color: "#FFD700", lo: 31, hi: 60 },
+      { color: "#00C851", lo: 61, hi: 100 }
+    ]
+  });
+}
+
+// Replace with your actual NodeID
+fetchBatteryData(82);
+</script>

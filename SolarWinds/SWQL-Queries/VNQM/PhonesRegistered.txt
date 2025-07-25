@@ -1,0 +1,13 @@
+-- Need to verify results on a live system with data to confirm results
+
+SELECT 
+    CallManagerName AS [Call Manager Name],  -- Renamed for clarity
+    COUNT(PhoneName) AS [Phone Count]  -- Count of registered phones
+FROM 
+    Orion.IpSla.ConnectedPhonesReport
+WHERE
+    PhoneName IS NOT NULL  -- Ensures only counted if phone name is available
+GROUP BY 
+    CallManagerName  -- Groups results by each Call Manager
+ORDER BY 
+    [Phone Count] DESC;  -- Optional: sorts results by the number of phones in descending order

@@ -1,0 +1,7 @@
+-- Counts the number of active interface sources that are enabled in Orion Netflow
+SELECT 
+    COUNT(InterfaceID) AS [Active Interface Sources]  -- More descriptive column alias
+FROM 
+    Orion.Netflow.Source
+WHERE 
+    enabled = '1';  -- Ensures only enabled (active) interfaces are counted

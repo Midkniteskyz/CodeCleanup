@@ -1,0 +1,18 @@
+-- This query retrieves network flow engine statistics grouped by server name and specific statistics periods
+SELECT 
+    e.Engine.ServerName AS [Polling Engine],  -- More descriptive alias for the server name
+    CASE  -- Maps statistics names to more readable terms
+        WHEN s.StatisticsName = 'FlowsPerSecondForLast24Hours' THEN 'Last 24 Hours' 
+        WHEN s.StatisticsName = 'FlowsPerSecondForLast3Days' THEN 'Last 3 Days' 
+        WHEN s.StatisticsName = 'FlowsPerSecondForLast5Minutes' THEN 'Last 5 Minutes' 
+        ELSE s.StatisticsName  -- Handles unexpected or new statistics names gracefully
+    END AS [Statistic Time Period],
+    s.StatisticsValue AS [Flows per Second]  -- Clearly labeled unit of measurement
+FROM 
+    Orion.Netflow.FlowEngines AS e
+JOIN 
+    Orion.Netflow.NetFlowEnginesStatistics AS s ON s.EngineID = e.EngineID
+WHERE
+    s.StatisticsName IN ('FlowsPerSecondForLast24Hours', 'FlowsPerSecondForLast3Days', 'FlowsPerSecondForLast5Minutes')  -- Filters only relevant statistics
+ORDER BY 
+    [Polling Engine], [Statistic Time Period];  -- Organizes output for better readability

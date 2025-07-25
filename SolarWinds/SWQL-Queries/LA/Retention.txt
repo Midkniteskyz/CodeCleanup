@@ -1,0 +1,7 @@
+-- Retrieve log types and their retention periods from the LogEntryType table in Orion OLM
+SELECT 
+    Name AS [Log Type],  -- Column: Name of the log type, displayed as Log Type
+    Concat(RetentionPeriodInDays, ' days') AS [Retention Time]  -- Column: Retention period concatenated with ' days', displayed as Retention Time
+
+FROM 
+    Orion.OLM.LogEntryType;  -- Source table: LogEntryType in Orion OLM

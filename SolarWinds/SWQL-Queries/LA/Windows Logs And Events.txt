@@ -1,0 +1,14 @@
+-- Retrieve Windows events count from the last 90 days
+SELECT 
+    Count(CASE WHEN logs.LogEntryTypeID = 4 THEN logs.LogEntryID END) AS [Windows Events in 90 days]  -- Column: Count of Windows events (LogEntryTypeID = 4)
+
+FROM 
+    Orion.OLM.LogEntry AS logs
+
+JOIN 
+    Orion.OLM.LogEntryType AS type ON type.LogEntryTypeID = logs.LogEntryTypeID  -- Join with LogEntryType to get event type details
+
+WHERE 
+    logs.LogEntryTypeID IN (4)  -- Filter for Windows (4)
+    AND logs.DateTime > ADDDATE('day', -90, GETUTCDATE());  -- Filter events from the last 90 days
+

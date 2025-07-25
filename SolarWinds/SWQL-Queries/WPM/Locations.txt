@@ -1,0 +1,7 @@
+SELECT Name, Hostname, IP, StatusDescription as [Status]
+, AgentVersion
+,concat(LoadPercentage,' %') as [Load]
+, Unmanaged
+,NumAllTransactions as [Total Trans]
+,NumManagedTransactions as [Man Tras]
+FROM Orion.SEUM.Agents

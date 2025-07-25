@@ -1,0 +1,33 @@
+-- Query to count the number of VMs affected by each active recommendation
+
+SELECT
+    -- Name of the recommendation
+    r.Name,
+    
+    -- Category of the recommendation
+    r.Strategy.name AS [Category],
+    
+    -- Count of VMs affected by the recommendation
+    COUNT(r.RecommendationID) AS [Number of VMs Affected]
+
+FROM
+    Orion.VIM.Recommendations AS r
+JOIN 
+    orion.Recommendations.Actions AS a
+    ON r.RecommendationID = a.RecommendationID
+
+WHERE
+    -- Filter for primary actions and active recommendations
+    a.Primary = 'True'
+    AND r.Status = 'Active'
+
+GROUP BY
+    -- Group by recommendation name and category
+    r.Name,
+    r.Strategy.name
+
+ORDER BY
+    -- Order by recommendation name, category, and number of VMs affected
+    r.Name,
+    [Category],
+    [Number of VMs Affected] ASC;

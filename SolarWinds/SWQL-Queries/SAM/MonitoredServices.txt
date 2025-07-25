@@ -1,0 +1,8 @@
+-- Counts the number of services monitored within Orion's Application Performance Monitor
+-- specifically for ComponentType = 9, which typically corresponds to a specific service type
+SELECT 
+    COUNT(ComponentID) AS [Services Monitored]  -- Provides a clear count of monitored services
+FROM 
+    Orion.APM.Component
+WHERE 
+    ComponentType = 9  -- Filters to include only components of a specific type

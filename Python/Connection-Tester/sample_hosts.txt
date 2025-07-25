@@ -1,0 +1,28 @@
+# Sample hosts file for Network Connectivity Checker
+# Lines starting with # are comments and will be ignored
+# Empty lines are also ignored
+
+# Public DNS servers
+8.8.8.8
+8.8.4.4
+1.1.1.1
+
+# Popular websites
+google.com
+github.com
+stackoverflow.com
+
+# Local network examples (uncomment and modify as needed)
+# 192.168.1.1          # Default gateway
+# 192.168.1.10         # Local server
+# 192.168.1.100        # Workstation
+
+# Corporate servers (example)
+orion.loop1.com
+hco.loop1.ziti
+agenda.loop1.ziti
+
+# Cloud services
+# aws.amazon.com
+# azure.microsoft.com
+# storage.googleapis.com

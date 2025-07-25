@@ -1,0 +1,62 @@
+--SELECT
+--    [Source Type],
+--    [Name],
+--    [IPAddress],
+--    [Vendor],
+--    COUNT(*) AS [Count] -- Count of each unique combination
+--FROM (
+--    SELECT
+--        'Primary' AS [Source Type],
+--        CASE 
+--            WHEN ms.Caption IS NULL OR ms.Caption = '' THEN 'Unknown'
+--            ELSE ms.Caption
+--        END AS [Name],
+--        CASE 
+--            WHEN ms.IPAddress IS NULL OR ms.IPAddress = '' THEN 'Unknown'
+--            ELSE ms.IPAddress
+--        END AS [IPAddress],
+--        CASE 
+--            WHEN ms.MachineType IS NULL OR ms.MachineType = '' THEN 'Unknown'
+--            ELSE ms.MachineType
+--        END AS [Machine Type],
+--        CASE 
+--            WHEN ms.Vendor IS NULL OR ms.Vendor = '' THEN 'Unknown'
+--            ELSE ms.Vendor
+--        END AS [Vendor]
+--    FROM 
+--        Orion.OLM.MessageSources ms
+--
+--    UNION ALL
+--
+--    (SELECT
+--        'Secondary' AS [Source Type],
+--        CASE 
+--            WHEN ss.Label IS NULL OR ss.Label = '' THEN 'Unknown'
+--            ELSE ss.Label
+--        END AS [Name],
+--        'Unknown' AS [IPAddress], -- No IP Address for secondary sources
+--        'Unknown' AS [Machine Type], -- No Machine Type for secondary sources
+--        'Unknown' AS [Vendor] -- No Vendor for secondary sources
+--    FROM 
+--        Orion.OLM.LogEntrySecondarySources ss)
+--) AS CombinedSources
+--GROUP BY 
+--    [Source Type], [Name], [IPAddress], [Vendor]
+--ORDER BY 
+--    [Source Type], [Vendor], [Name], [IPAddress];
+
+SELECT
+  ms.EngineID,
+  e.ServerName,
+  e.ServerType,
+  COUNT(*) AS [IP Count]
+FROM
+  Orion.OLM.MessageSources ms
+JOIN
+  Orion.Engines e ON ms.EngineID = e.EngineID
+GROUP BY
+  ms.EngineID,
+  e.ServerName,
+  e.ServerType
+ORDER BY
+  ms.EngineID ASC;

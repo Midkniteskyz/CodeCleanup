@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SilentConfig>
+  <InstallerConfiguration>
+    <Info.Database.FailureInfo>
+    </Info.Database.FailureInfo>
+    <Info.OrionLogConfiguration.StorageConfig.ServerName>127.0.0.1</Info.OrionLogConfiguration.StorageConfig.ServerName>
+    <Info.OrionLogConfiguration.StorageConfig.NeedSQLServerSecurity>false</Info.OrionLogConfiguration.StorageConfig.NeedSQLServerSecurity>
+    <Info.Website.SkipHTTPBinding>false</Info.Website.SkipHTTPBinding>
+    <Info.Website.ApplicationName>SolarWinds NetPerfMon</Info.Website.ApplicationName>
+    <Info.Database.UserPassword>Password</Info.Database.UserPassword>
+    <Info.NetFlowConfiguration.FlowStorageConfig.ServerName>127.0.0.1</Info.NetFlowConfiguration.FlowStorageConfig.ServerName>
+    <Info.Database.UseSQLSecurity>true</Info.Database.UseSQLSecurity>
+    <Info.Website.Address>(All Unassigned)</Info.Website.Address>
+    <Info.ReconfigureServices>true</Info.ReconfigureServices>
+    <Info.OrionLogConfiguration.StorageConfig.AccountPassword>a</Info.OrionLogConfiguration.StorageConfig.AccountPassword>
+    <Info.Database.DatabaseName>SolarWindsOrion</Info.Database.DatabaseName>
+    <Info.NetFlowConfiguration.FlowStorageConfig.UseSQLSecurity>True</Info.NetFlowConfiguration.FlowStorageConfig.UseSQLSecurity>
+    <Info.Database.SAPassword>Password</Info.Database.SAPassword>
+    <Info.Database.NeedToChangeSAPassword>false</Info.Database.NeedToChangeSAPassword>
+    <Info.ReconfigureWebsite>true</Info.ReconfigureWebsite>
+    <Info.Website.Folder>C:\MyCustomFolder</Info.Website.Folder>
+    <Info.Database.AccountType>ExistingSql</Info.Database.AccountType>
+    <Info.Database.ServerName>SQLServer01</Info.Database.ServerName>
+    <Info.NetFlowConfiguration.FlowStorageConfig.Account>SolarWindsNtaDatabaseUser</Info.NetFlowConfiguration.FlowStorageConfig.Account>
+    <Info.NetFlowConfiguration.FlowStorageConfig.AccountPassword>123</Info.NetFlowConfiguration.FlowStorageConfig.AccountPassword>
+    <Info.Database.Account>SolarWindsOrionDatabaseUser</Info.Database.Account>
+    <Info.Database.CreateNewDatabase>False</Info.Database.CreateNewDatabase>
+    <Info.ReconfigureDatabase>true</Info.ReconfigureDatabase>
+    <Info.Website.EnableWindowsLogin>true</Info.Website.EnableWindowsLogin>
+    <Info.OrionLogConfiguration.StorageConfig.UseExistingSqlAccount>True</Info.OrionLogConfiguration.StorageConfig.UseExistingSqlAccount>
+    <Info.ReconfigurePermissions>true</Info.ReconfigurePermissions>
+    <Info.Website.CertificateName>environment specific</Info.Website.CertificateName>
+    <Info.OrionLogConfiguration.StorageConfig.CreateNewDatabase>False</Info.OrionLogConfiguration.StorageConfig.CreateNewDatabase>
+    <Info.OrionLogConfiguration.StorageConfig.DatabaseName>SolarWindsOrionLog</Info.OrionLogConfiguration.StorageConfig.DatabaseName>
+    <Info.Website.CertificateResolvableCN>environment specific</Info.Website.CertificateResolvableCN>
+    <Info.Database.UseExistingSqlAccount>True</Info.Database.UseExistingSqlAccount>
+    <Info.NetFlowConfiguration.FlowStorageConfig.UserPassword>Password1</Info.NetFlowConfiguration.FlowStorageConfig.UserPassword>
+    <Info.Website.CertificateHash>environment specific</Info.Website.CertificateHash>
+    <Info.Database.AddServiceDependencies>false</Info.Database.AddServiceDependencies>
+    <Info.NetFlowConfiguration.FlowStorageConfig.CreateNewDatabase>False</Info.NetFlowConfiguration.FlowStorageConfig.CreateNewDatabase>
+    <Info.NetFlowConfiguration.FlowStorageConfig.DatabaseName>SolarWindsFlowStorage</Info.NetFlowConfiguration.FlowStorageConfig.DatabaseName>
+    <Info.OrionLogConfiguration.StorageConfig.NeedToChangeSAPassword>false</Info.OrionLogConfiguration.StorageConfig.NeedToChangeSAPassword>
+    <Info.Database.NeedSQLServerSecurity>false</Info.Database.NeedSQLServerSecurity>
+    <Info.OrionLogConfiguration.StorageConfig.User>sa</Info.OrionLogConfiguration.StorageConfig.User>
+    <Info.Website.ConfigurationSkipped_IISNotInstalled>false</Info.Website.ConfigurationSkipped_IISNotInstalled>
+    <Info.Database.User>sa</Info.Database.User>
+    <Info.OrionLogConfiguration.StorageConfig.RemoveServiceDependencies>false</Info.OrionLogConfiguration.StorageConfig.RemoveServiceDependencies>
+    <Info.Database.AccountPassword>a</Info.Database.AccountPassword>
+    <Info.OrionLogConfiguration.StorageConfig.UserPassword>Password</Info.OrionLogConfiguration.StorageConfig.UserPassword>
+    <Info.NetFlowConfiguration.FlowStorageConfig.AccountType>ExistingSql</Info.NetFlowConfiguration.FlowStorageConfig.AccountType>
+    <Info.NetFlowConfiguration.FlowStorageConfig.UseExistingSqlAccount>True</Info.NetFlowConfiguration.FlowStorageConfig.UseExistingSqlAccount>
+    <Info.Website.Port>8080</Info.Website.Port>
+    <Info.OrionLogConfiguration.StorageConfig.SAPassword>
+    </Info.OrionLogConfiguration.StorageConfig.SAPassword>
+    <Info.OrionLogConfiguration.StorageConfig.FailureInfo>
+    </Info.OrionLogConfiguration.StorageConfig.FailureInfo>
+    <Info.Website.LaunchWebConsole>false</Info.Website.LaunchWebConsole>
+    <Info.OrionLogConfiguration.StorageConfig.UseSQLSecurity>true</Info.OrionLogConfiguration.StorageConfig.UseSQLSecurity>
+    <Info.Website.EnableHTTPS>true</Info.Website.EnableHTTPS>
+    <Info.OrionLogConfiguration.StorageConfig.AddServiceDependencies>false</Info.OrionLogConfiguration.StorageConfig.AddServiceDependencies>
+    <Info.OrionLogConfiguration.StorageConfig.Account>SolarWindsOrionDatabaseUser</Info.OrionLogConfiguration.StorageConfig.Account>
+    <Info.OrionLogConfiguration.StorageConfig.AccountType>ExistingSql</Info.OrionLogConfiguration.StorageConfig.AccountType>
+    <Info.NetFlowConfiguration.FlowStorageConfig.User>sa</Info.NetFlowConfiguration.FlowStorageConfig.User>
+  </InstallerConfiguration>
+  <Host>
+    <Info>
+      <OrionLogConfiguration>
+        <StorageConfig>
+        </StorageConfig>
+      </OrionLogConfiguration>
+      <NetFlowConfiguration>
+        <FlowStorageConfig>
+          <Info.Database.RemoveServiceDependencies>false</Info.Database.RemoveServiceDependencies>
+        </FlowStorageConfig>
+      </NetFlowConfiguration>
+    </Info>
+  </Host>
+  <Plugins>
+    <Plugin Assembly="SolarWinds.ConfigurationWizard.Plugin.LogMgmt" FactoryType="SolarWinds.ConfigurationWizard.Plugin.LogMgmt.SilentConfigureFactory" />
+    <Plugin Assembly="SolarWinds.ConfigurationWizard.Plugin.NetFlow" FactoryType="SolarWinds.ConfigurationWizard.Plugin.NetFlow.SilentMode.NetFlowSilentConfigureFactory" />
+  </Plugins>
+</SilentConfig>

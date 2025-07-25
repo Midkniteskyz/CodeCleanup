@@ -1,0 +1,9 @@
+SELECT 
+    DG.Name AS [Device Group Name],
+    DG.Description AS [Device Group Description]
+FROM 
+    Orion.SRM.DeviceGroups AS DG
+JOIN 
+    Orion.SRM.Providers AS P ON DG.DeviceGroupID = P.DeviceGroupID
+ORDER BY 
+    DG.DeviceGroupID;  -- Optional: Order the results by DeviceGroupID

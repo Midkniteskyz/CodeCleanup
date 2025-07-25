@@ -1,0 +1,14 @@
+-- Query to count VMs based on their management status
+
+SELECT
+    -- Count of VMs that are managed as nodes
+    SUM(CASE WHEN vm.[NodeID] IS NOT NULL THEN 1 ELSE 0 END) AS [Managed as Node],
+    
+    -- Count of VMs that are not managed as nodes
+    SUM(CASE WHEN vm.[NodeID] IS NULL THEN 1 ELSE 0 END) AS [Not Managed as Node],
+    
+    -- Total count of VMs
+    COUNT(*) AS [Total VMs]
+    
+FROM
+    orion.vim.virtualmachines AS vm;

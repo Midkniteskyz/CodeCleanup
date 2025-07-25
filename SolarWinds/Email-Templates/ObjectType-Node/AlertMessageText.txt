@@ -1,0 +1,8 @@
+Cannot ping ${N=SwisEntity;M=Caption}.
+
+Node Details
+Node Name: ${N=SwisEntity;M=Caption}
+IP Address: ${N=SwisEntity;M=IP_Address}
+Status: ${N=SwisEntity;M=Status;F=Status}
+Machine Vendor: ${N=SwisEntity;M=Vendor}
+Machine Type: ${N=SwisEntity;M=MachineType}

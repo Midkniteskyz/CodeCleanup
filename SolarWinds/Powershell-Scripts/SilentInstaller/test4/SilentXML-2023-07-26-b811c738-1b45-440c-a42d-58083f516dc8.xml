@@ -1,0 +1,23 @@
+<SilentConfig>
+  <InstallerConfiguration>
+    <SkipConfigurationWizardRun>False</SkipConfigurationWizardRun>
+  </InstallerConfiguration>
+  <Host>
+    <Info>System.Collections.Specialized.OrderedDictionary</Info>
+  </Host>
+  <Plugins>
+    <Plugin1>
+      <Assembly>SolarWinds.ConfigurationWizard.Plugin.LogMgmt</Assembly>
+      <FactoryType>SolarWinds.ConfigurationWizard.Plugin.LogMgmt.SilentConfigureFactory</FactoryType>
+    </Plugin1>
+    <Plugin2>
+      <Assembly>SolarWinds.ConfigurationWizard.Plugin.NetFlow</Assembly>
+      <FactoryType>SolarWinds.ConfigurationWizard.Plugin.NetFlow.SilentMode.NetFlowSilentConfigureFactory</FactoryType>
+    </Plugin2>
+  </Plugins>
+  <SilentConfig>
+    <InstallerConfiguration>
+      <SkipConfigurationWizardRun>IMNEW</SkipConfigurationWizardRun>
+    </InstallerConfiguration>
+  </SilentConfig>
+</SilentConfig>

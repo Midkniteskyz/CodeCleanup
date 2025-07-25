@@ -1,0 +1,6 @@
+-- Count of IP address conflicts in the IP Address Management (IPAM) system
+
+SELECT 
+    COUNT(*) AS [Conflict Count]       -- Total number of IP conflicts
+FROM 
+    IPAM.Conflict                      -- Table tracking conflicting IP assignments

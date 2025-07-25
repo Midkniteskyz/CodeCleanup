@@ -1,0 +1,7 @@
+-- Need to verify results on a live system with data to confirm results
+
+SELECT 
+    vg.DisplayName AS [Gateway Display Name],  -- More descriptive column alias
+    vg.DeviceName AS [Device Name]             -- More descriptive column alias
+FROM 
+    Orion.IpSla.VoipGateways AS vg             -- Aliased table for clarity and ease of reference

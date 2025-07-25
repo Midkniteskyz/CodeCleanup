@@ -1,0 +1,8 @@
+-- Query to count the number of capacity reports created
+
+SELECT
+    -- Count of capacity reports created
+    COUNT(ID) AS [Capacity Reports Created]
+
+FROM
+    Orion.VIM.CapacityPlanning.ReportResults;

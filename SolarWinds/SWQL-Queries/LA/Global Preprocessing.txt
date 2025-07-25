@@ -1,0 +1,1 @@
+SELECT Enabled, Name FROM Orion.OLM.ProcessingRule

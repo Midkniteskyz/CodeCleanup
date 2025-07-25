@@ -1,0 +1,6 @@
+SELECT 
+IPAddressGroupName as [Group Name]
+,concat(substring(tostring(IPRangeStart),1,3),'.',substring(tostring(IPRangeStart),4,3),'.',substring(tostring(IPRangeStart),7,3),'.',substring(tostring(IPRangeStart),9,3)) as [Start]
+,concat(substring(tostring(IPRangeEnd),1,3),'.',substring(tostring(IPRangeEnd),4,3),'.',substring(tostring(IPRangeEnd),7,3),'.',substring(tostring(IPRangeEnd),9,3)) as [End]
+,Enabled
+FROM Orion.Netflow.IPAddressGroupRanges

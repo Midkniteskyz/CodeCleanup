@@ -1,0 +1,19 @@
+-- Query to count the number of VMs monitored by each provider
+
+SELECT
+    -- Provider Name
+    Provider,
+    
+    -- Count of VMs Monitored
+    COUNT(VirtualMachineID) AS [VMs Monitored]
+
+FROM
+    Orion.Cloud.Instances
+
+GROUP BY
+    -- Group by Provider
+    Provider
+
+ORDER BY
+    -- Order by Provider Name
+    Provider;

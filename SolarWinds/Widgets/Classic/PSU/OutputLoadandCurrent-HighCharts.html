@@ -1,0 +1,167 @@
+<!-- Highcharts -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<div style="max-width: 900px; margin: auto;">
+  <div id="loadSparkline" style="height: 180px; margin-bottom: 2em;"></div>
+  <div id="currentSparkline" style="height: 180px;"></div>
+</div>
+<script>
+  // === SWQL for both metrics ===
+  const swql = `
+    SELECT TOP 100 DateTime, RawStatus, CustomPollerAssignmentID
+    FROM Orion.NPM.CustomPollerStatistics
+    WHERE CustomPollerAssignmentID IN (
+      'c665759c-4cf3-40b2-83ba-bd2741dbb93b',  -- upsAdvOutputLoad
+      'e2cd5b77-b2b8-4b31-9111-d3c22bdd2b19'   -- upsAdvOutputCurrent
+    ) AND DateTime > ADDDAY(-1, GETUTCDATE())
+    ORDER BY DateTime ASC
+  `;
+  const params = JSON.stringify({ query: swql, parameters: {} });
+  
+  // === Parse SWIS date format ===
+  function parseSwisDate(dateStr) {
+    const match = /\/Date\((\d+)\)\//.exec(dateStr);
+    return match ? parseInt(match[1], 10) : null;
+  }
+  
+  // === Calculate optimal tick interval based on data timespan ===
+  function calculateTickInterval(data) {
+    if (data.length < 2) return null;
+    
+    const timespan = data[data.length - 1][0] - data[0][0];
+    const hours = timespan / (1000 * 60 * 60);
+    
+    // Return interval in milliseconds
+    if (hours <= 2) return 15 * 60 * 1000;        // 15 minutes
+    else if (hours <= 6) return 30 * 60 * 1000;   // 30 minutes  
+    else if (hours <= 12) return 60 * 60 * 1000;  // 1 hour
+    else if (hours <= 24) return 2 * 60 * 60 * 1000; // 2 hours
+    else if (hours <= 48) return 4 * 60 * 60 * 1000; // 4 hours
+    else return 6 * 60 * 60 * 1000;               // 6 hours
+  }
+  
+  // === Determine appropriate date format based on timespan ===
+  function getDateFormat(data) {
+    if (data.length < 2) return '%H:%M';
+    
+    const timespan = data[data.length - 1][0] - data[0][0];
+    const hours = timespan / (1000 * 60 * 60);
+    const days = hours / 24;
+    
+    if (days > 1) return '%m/%d %H:%M';  // Show date and time
+    else return '%H:%M';                 // Show time only
+  }
+  
+  // === AJAX query ===
+  $.ajax({
+    type: 'POST',
+    url: '/Orion/Services/Information.asmx/QueryWithParameters',
+    data: params,
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    success: function (response) {
+      const rows = response.d.Rows;
+      const loadId = 'c665759c-4cf3-40b2-83ba-bd2741dbb93b';
+      const currentId = 'e2cd5b77-b2b8-4b31-9111-d3c22bdd2b19';
+      const loadData = [];
+      const currentData = [];
+      
+      for (const row of rows) {
+        const time = parseSwisDate(row[0]);
+        const value = parseFloat(row[1]);
+        const pollerId = row[2];
+        
+        if (!isNaN(time) && !isNaN(value)) {
+          if (pollerId === loadId) loadData.push([time, value]);
+          else if (pollerId === currentId) currentData.push([time, value]);
+        }
+      }
+      
+      // Sort data by timestamp to ensure proper ordering
+      loadData.sort((a, b) => a[0] - b[0]);
+      currentData.sort((a, b) => a[0] - b[0]);
+      
+      drawSparkline('loadSparkline', 'Output Load %', loadData, '%', '#007bff');
+      drawSparkline('currentSparkline', 'Output Current (Amps)', currentData, ' A', '#28a745');
+    },
+    error: function (xhr, status, error) {
+      document.getElementById("loadSparkline").innerText = "Error loading data.";
+      document.getElementById("currentSparkline").innerText = "Error loading data.";
+      console.error("SWQL error:", error);
+    }
+  });
+  
+  function drawSparkline(container, title, data, suffix, color) {
+    const tickInterval = calculateTickInterval(data);
+    const dateFormat = getDateFormat(data);
+    
+    Highcharts.chart(container, {
+      chart: {
+        type: 'spline',
+        backgroundColor: 'transparent',
+        height: 150,
+        marginBottom: 40
+      },
+      title: {
+        text: title,
+        style: { fontSize: '14px', fontWeight: 'bold' }
+      },
+      xAxis: {
+        type: 'datetime',
+        labels: { 
+          enabled: false,
+          format: '%H:00',
+          style: { fontSize: '10px' },
+          rotation: -45,
+          step: 1
+        },
+        tickInterval: tickInterval,
+        tickLength: 3,
+        lineWidth: 1,
+        gridLineWidth: 0.5,
+        gridLineColor: '#e0e0e0'
+      },
+      yAxis: {
+        title: { text: null },
+        labels: { 
+          enabled: true,
+          style: { fontSize: '10px' },
+          format: '{value}' + suffix
+        },
+        gridLineWidth: 0.5,
+        gridLineColor: '#f0f0f0'
+      },
+      tooltip: {
+        shared: true,
+        valueSuffix: suffix,
+        xDateFormat: '%A, %b %e, %Y at %l:%M:%S %p',
+        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        borderColor: color,
+        borderWidth: 1,
+        shadow: true
+      },
+      credits: { enabled: false },
+      legend: { enabled: false },
+      plotOptions: {
+        spline: {
+          lineWidth: 2,
+          marker: {
+            enabled: false,
+            states: {
+              hover: {
+                enabled: true,
+                radius: 4
+              }
+            }
+          }
+        }
+      },
+      series: [{
+        name: title,
+        data: data,
+        color: color,
+        fillOpacity: 0.1
+      }]
+    });
+  }
+</script>
+

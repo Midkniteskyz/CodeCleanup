@@ -1,0 +1,7 @@
+--'/Orion/Nodes/Add/Default.aspx?EngineID=-1&IPAddress=' + tostring(vm.IPAddress) + '&VMwareEntity=G' + ToString(vm.virtualmachineID) + '&restart=false' as [_Linkfor_VM Name_]
+
+
+--Widget: VM's not Monitored by SolarWinds
+select vm.DisplayName as [VM Name], vm.IPAddress as [VM IP], vm.host.Cluster.DataCenter.VCenter.DisplayName as [vCenter], vm.host.Cluster.DataCenter.DisplayName as [Data Center], vm.host.Cluster.DisplayName as [Cluster], vm.Host.DisplayName as [Host], '/Orion/Nodes/Add/Default.aspx?EngineID=-1&IPAddress=' + tostring(vm.IPAddress) + '&VMwareEntity=G' + ToString(vm.virtualmachineID) + '&restart=false' as [_Linkfor_VM Name]
+from Orion.VIM.VirtualMachines VM
+where vm.NodeID is NULL and vm.IPAddress is not NULL --and vm.displayname like '%${SEARCH_STRING}%'

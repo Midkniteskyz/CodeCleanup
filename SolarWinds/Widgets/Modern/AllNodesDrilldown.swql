@@ -1,0 +1,57 @@
+SELECT
+
+-- Required Entity Alias's: EntityIcon, EntityStatus, EntityDetailedUrl, EntityName, EntityLink
+
+-- EntityIcon
+    CASE
+        WHEN n.MachineType LIKE '%Windows%' OR n.MachineType LIKE '%linux%' THEN 'server'
+        WHEN n.MachineType LIKE '%print%' THEN 'printer'
+        WHEN n.MachineType LIKE '%firewall%' THEN 'firewall'
+        WHEN n.MachineType LIKE 'VMware ESX' THEN 'vmwarehost'
+        WHEN n.MachineType LIKE 'VMware ESX Server' THEN 'virtual-server'
+        WHEN n.MachineType LIKE 'VMware vCenter Server' THEN 'vmwaredatacenter'
+        WHEN n.MachineType LIKE 'SMARTUPS2' THEN 'energywise'
+        WHEN n.MachineType LIKE '%Meraki%' THEN 'wirelesscontroller'
+        WHEN n.MachineType LIKE '%drac%' THEN 'hardware'
+        WHEN n.MachineType LIKE '%catalyst%' THEN 'l2l3switch'
+        WHEN n.MachineType LIKE 'Hyper-V Server' THEN 'hypervhost'
+        ELSE 'unknownnode'
+    END as EntityIcon,
+
+-- EntityStatus
+    CASE
+        WHEN n.Status IN (2,8,14,38,39) THEN 'critical'
+        WHEN n.Status IN (1,22,31,42) THEN 'up'
+        WHEN n.Status IN (3,15,16,17,28,32,33,37,41,43,44) THEN 'warning'
+        WHEN n.Status IN (0,4,5,6,7,9,10,11,12,19,24,25,26,27,29,30,34,35,36,40,45) THEN 'unknown'
+        ELSE s.ShortDescription
+    END as EntityStatus,
+
+-- EntityDetailedURL
+    s.ShortDescription as EntityDetailedUrl,
+
+-- EntityName
+    n.Caption as EntityName,
+
+-- EntityLink
+    n.DetailsUrl as EntityLink,
+
+-- Groupings
+    n.Vendor AS EntityVendor,
+    n.MachineType AS EntityMachineType
+
+FROM
+    Orion.Nodes AS n
+    JOIN Orion.StatusInfo AS s ON n.Status = s.StatusID
+
+ORDER By 
+    n.Vendor,
+    n.MachineType,
+    CASE
+        WHEN n.Status IN (2,8,14,38,39) THEN 1 -- critical
+        WHEN n.Status IN (3,15,16,17,28,32,33,37,41,43,44) THEN 2 -- warning
+        WHEN n.Status IN (0,4,5,6,7,9,10,11,12,19,24,25,26,27,29,30,34,35,36,40,45) THEN 3 -- unknown
+        WHEN n.Status IN (1,22,31,42) THEN 4 -- up
+        ELSE 5 -- for any other statuses
+    END,
+    n.Caption

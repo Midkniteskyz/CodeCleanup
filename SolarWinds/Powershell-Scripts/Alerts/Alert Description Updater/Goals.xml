@@ -1,0 +1,53 @@
+i want to make a powershell script that will take the trigger condition, reset condition, time of day schedule, trigger action, and the reset action from an alert and return this info in a human readable format. heres what i know. can you figure out how to do this?
+
+Main table with alert configurations
+SELECT TOP 1000 AlertID, AlertMessage, AlertRefID, Name, Description, ObjectType, Enabled, Frequency, Trigger, Reset, Severity, NotifyEnabled, NotificationSettings, LastEdit, CreatedBy, Category, Canned, uri
+FROM Orion.AlertConfigurations
+
+Trigger
+<ArrayOfAlertConditionShelve xmlns="http://schemas.datacontract.org/2004/07/SolarWinds.Orion.Core.Models.Alerting" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><AlertConditionShelve><AndThenTimeInterval i:nil="true"/><ChainType>Trigger</ChainType><ConditionTypeID>Core.Dynamic</ConditionTypeID><Configuration>&lt;AlertConditionDynamic xmlns="http://schemas.datacontract.org/2004/07/SolarWinds.Orion.Core.Alerting.Plugins.Conditions.Dynamic" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;ExprTree xmlns:a="http://schemas.datacontract.org/2004/07/SolarWinds.Orion.Core.Models.Alerting"&gt;&lt;a:Child&gt;&lt;a:Expr&gt;&lt;a:Child&gt;&lt;a:Expr&gt;&lt;a:Child/&gt;&lt;a:NodeType&gt;Field&lt;/a:NodeType&gt;&lt;a:Value&gt;Orion.Nodes|Status&lt;/a:Value&gt;&lt;/a:Expr&gt;&lt;a:Expr&gt;&lt;a:Child/&gt;&lt;a:NodeType&gt;Constant&lt;/a:NodeType&gt;&lt;a:Value&gt;2&lt;/a:Value&gt;&lt;/a:Expr&gt;&lt;/a:Child&gt;&lt;a:NodeType&gt;Operator&lt;/a:NodeType&gt;&lt;a:Value&gt;=&lt;/a:Value&gt;&lt;/a:Expr&gt;&lt;/a:Child&gt;&lt;a:NodeType&gt;Operator&lt;/a:NodeType&gt;&lt;a:Value&gt;AND&lt;/a:Value&gt;&lt;/ExprTree&gt;&lt;Scope xmlns:a="http://schemas.datacontract.org/2004/07/SolarWinds.Orion.Core.Models.Alerting"&gt;&lt;a:Child&gt;&lt;a:Expr&gt;&lt;a:Child&gt;&lt;a:Expr&gt;&lt;a:Child i:nil="true"/&gt;&lt;a:NodeType&gt;Field&lt;/a:NodeType&gt;&lt;a:Value&gt;Orion.NodesCustomProperties|Infrastructure|CustomProperties&lt;/a:Value&gt;&lt;/a:Expr&gt;&lt;a:Expr&gt;&lt;a:Child i:nil="true"/&gt;&lt;a:NodeType&gt;Constant&lt;/a:NodeType&gt;&lt;a:Value&gt;Server&lt;/a:Value&gt;&lt;/a:Expr&gt;&lt;/a:Child&gt;&lt;a:NodeType&gt;Operator&lt;/a:NodeType&gt;&lt;a:Value&gt;=&lt;/a:Value&gt;&lt;/a:Expr&gt;&lt;/a:Child&gt;&lt;a:NodeType&gt;Operator&lt;/a:NodeType&gt;&lt;a:Value&gt;AND&lt;/a:Value&gt;&lt;/Scope&gt;&lt;TimeWindow i:nil="true"/&gt;&lt;/AlertConditionDynamic&gt;</Configuration><ConjunctionOperator>None</ConjunctionOperator><IsInvertedMinCountThreshold>false</IsInvertedMinCountThreshold><NetObjectsMinCountThreshold i:nil="true"/><ObjectType>Node</ObjectType><SustainTime>PT1M</SustainTime></AlertConditionShelve></ArrayOfAlertConditionShelve>
+
+Reset
+<ArrayOfAlertConditionShelve xmlns="http://schemas.datacontract.org/2004/07/SolarWinds.Orion.Core.Models.Alerting" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><AlertConditionShelve><AndThenTimeInterval i:nil="true"/><ChainType>ResetInverseToTrigger</ChainType><ConditionTypeID i:nil="true"/><Configuration i:nil="true"/><ConjunctionOperator>None</ConjunctionOperator><IsInvertedMinCountThreshold>false</IsInvertedMinCountThreshold><NetObjectsMinCountThreshold i:nil="true"/><ObjectType i:nil="true"/><SustainTime i:nil="true"/></AlertConditionShelve></ArrayOfAlertConditionShelve>
+
+NotificationSettings
+<AlertNotificationSetting xmlns="http://schemas.solarwinds.com/2008/Core" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><Enabled>true</Enabled><NetObjectType>Node</NetObjectType><Severity>Warning</Severity><Subject>Network - Alert me when a node goes down</Subject><_properties xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays"><a:KeyValueOfstringAlertNotificationProperty9sQWCBBt><a:Key>IP Address</a:Key><a:Value><Name>IP Address</Name><Value>${IP_Address}</Value></a:Value></a:KeyValueOfstringAlertNotificationProperty9sQWCBBt><a:KeyValueOfstringAlertNotificationProperty9sQWCBBt><a:Key>Object Sub Type</a:Key><a:Value><Name>Object Sub Type</Name><Value>${ObjectSubType}</Value></a:Value></a:KeyValueOfstringAlertNotificationProperty9sQWCBBt><a:KeyValueOfstringAlertNotificationProperty9sQWCBBt><a:Key>Status Description</a:Key><a:Value><Name>Status Description</Name><Value>${StatusDescription}</Value></a:Value></a:KeyValueOfstringAlertNotificationProperty9sQWCBBt><a:KeyValueOfstringAlertNotificationProperty9sQWCBBt><a:Key>Node Name</a:Key><a:Value><Name>Node Name</Name><Value>${SysName}</Value></a:Value></a:KeyValueOfstringAlertNotificationProperty9sQWCBBt><a:KeyValueOfstringAlertNotificationProperty9sQWCBBt><a:Key>Vendor</a:Key><a:Value><Name>Vendor</Name><Value>${Vendor}</Value></a:Value></a:KeyValueOfstringAlertNotificationProperty9sQWCBBt></_properties></AlertNotificationSetting>
+
+Desired Information that should be in the Alert Description
+Trigger Condition
+Reset Condition
+Time of Day schedule
+Trigger Action
+Reset Action
+
+Desired output:
+
+Trigger Condition:
+Alert on all objects where:
+Nodes Custom Properties - Infrastructure - is equal to - Server
+The actual trigger condition:
+Node - Status - is equal to - Down
+
+Reset Condition:
+When the trigger condition is no longer true
+
+Time of Day schedule:
+Alert is always enabled
+
+Trigger Action:
+Escalation Level 1
+1. Copy of DCL - Node Status Alert - Log Event
+2. Copy of DCL - Node Status Alert - Send Email
+
+Reset Action:
+1. Copy of DCL - Node Status Reset - Log Event
+2. Copy of DCL - Node Status Reset - Send Email
+
+
+
+
+
+
+
+
+

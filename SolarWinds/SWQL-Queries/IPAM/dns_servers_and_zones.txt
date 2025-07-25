@@ -1,0 +1,16 @@
+-- Retrieve distinct DNS servers and their associated DNS zones
+
+SELECT DISTINCT
+    server.DisplayName AS [DNS Server],  -- Name of the DNS server
+    zone.DisplayName AS [DNS Zone]       -- Name of the DNS zone
+
+FROM 
+    Orion.Nodes AS n                     -- Base node data
+
+    -- Join DNS server info linked to the node
+    JOIN IPAM.DNSServer AS server 
+        ON server.NodeId = n.NodeID
+
+    -- Join DNS zone info also linked to the node
+    JOIN IPAM.DnsZone AS zone 
+        ON zone.NodeId = n.NodeID;

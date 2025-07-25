@@ -1,0 +1,20 @@
+-- Query to count the number of VMs based on CPU Ready Thresholds
+
+SELECT
+    -- Count of VMs with CPU Ready time greater than 0ms
+    COUNT(CASE WHEN E0.[CpuReadyThreshold].[CurrentValue] > 0 THEN 1 END) AS [CPU Ready > 0ms],
+    
+    -- Count of VMs in CPU Ready Warning state
+    COUNT(CASE WHEN E0.[CpuReadyThreshold].[IsLevel1State] = 1 THEN 1 END) AS [CPU Ready Warning],
+    
+    -- Count of VMs in CPU Ready Critical state
+    COUNT(CASE WHEN E0.[CpuReadyThreshold].[IsLevel2State] = 1 THEN 1 END) AS [CPU Ready Critical]
+
+FROM
+    Orion.VIM.VirtualMachines AS E0
+
+WHERE
+    -- Filter to include VMs with CPU Ready time greater than 0ms, or in Warning or Critical state
+    E0.[CpuReadyThreshold].[CurrentValue] > 0
+    OR E0.[CpuReadyThreshold].[IsLevel1State] = 1
+    OR E0.[CpuReadyThreshold].[IsLevel2State] = 1;

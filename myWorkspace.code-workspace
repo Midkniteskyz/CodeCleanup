@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../AS-Built SWQL_Scripts"
+		},
+		{
+			"path": "../../CodeCleanup"
+		}
+	],
+	"settings": {}
+}

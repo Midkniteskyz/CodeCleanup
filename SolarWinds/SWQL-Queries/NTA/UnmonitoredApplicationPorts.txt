@@ -1,0 +1,4 @@
+SELECT 
+count(ApplicationID) as [Unmonitored Ports]
+FROM Orion.Netflow.Applications
+where enabled = 'false'

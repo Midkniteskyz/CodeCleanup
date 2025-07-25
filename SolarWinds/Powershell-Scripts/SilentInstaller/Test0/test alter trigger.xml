@@ -1,0 +1,20 @@
+<ArrayOfAlertConditionShelve
+	xmlns="http://schemas.datacontract.org/2004/07/SolarWinds.Orion.Core.Models.Alerting"
+	xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<AlertConditionShelve>
+		<AndThenTimeInterval i:nil="true"/>
+		<ChainType>Trigger</ChainType>
+		<ConditionTypeID>Core.Dynamic</ConditionTypeID>
+		<Configuration>&lt;AlertConditionDynamic
+			xmlns="http://schemas.datacontract.org/2004/07/SolarWinds.Orion.Core.Alerting.Plugins.Conditions.Dynamic"
+			xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;ExprTree
+			xmlns:a="http://schemas.datacontract.org/2004/07/SolarWinds.Orion.Core.Models.Alerting"&gt;&lt;a:Child&gt;&lt;a:Expr&gt;&lt;a:Child&gt;&lt;a:Expr&gt;&lt;a:Child/&gt;&lt;a:NodeType&gt;Field&lt;/a:NodeType&gt;&lt;a:Value&gt;Orion.SEUM.Transactions|Status&lt;/a:Value&gt;&lt;/a:Expr&gt;&lt;a:Expr&gt;&lt;a:Child/&gt;&lt;a:NodeType&gt;Constant&lt;/a:NodeType&gt;&lt;a:Value&gt;3&lt;/a:Value&gt;&lt;/a:Expr&gt;&lt;/a:Child&gt;&lt;a:NodeType&gt;Operator&lt;/a:NodeType&gt;&lt;a:Value&gt;=&lt;/a:Value&gt;&lt;/a:Expr&gt;&lt;a:Expr&gt;&lt;a:Child&gt;&lt;a:Expr&gt;&lt;a:Child/&gt;&lt;a:NodeType&gt;Field&lt;/a:NodeType&gt;&lt;a:Value&gt;Orion.SEUM.Transactions|Status&lt;/a:Value&gt;&lt;/a:Expr&gt;&lt;a:Expr&gt;&lt;a:Child/&gt;&lt;a:NodeType&gt;Constant&lt;/a:NodeType&gt;&lt;a:Value&gt;14&lt;/a:Value&gt;&lt;/a:Expr&gt;&lt;/a:Child&gt;&lt;a:NodeType&gt;Operator&lt;/a:NodeType&gt;&lt;a:Value&gt;=&lt;/a:Value&gt;&lt;/a:Expr&gt;&lt;/a:Child&gt;&lt;a:NodeType&gt;Operator&lt;/a:NodeType&gt;&lt;a:Value&gt;OR&lt;/a:Value&gt;&lt;/ExprTree&gt;&lt;Scope i:nil="true"
+			xmlns:a="http://schemas.datacontract.org/2004/07/SolarWinds.Orion.Core.Models.Alerting"/&gt;&lt;TimeWindow i:nil="true"/&gt;&lt;/AlertConditionDynamic&gt;
+		</Configuration>
+		<ConjunctionOperator>None</ConjunctionOperator>
+		<IsInvertedMinCountThreshold>false</IsInvertedMinCountThreshold>
+		<NetObjectsMinCountThreshold i:nil="true"/>
+		<ObjectType>Transaction</ObjectType>
+		<SustainTime i:nil="true"/>
+	</AlertConditionShelve>
+</ArrayOfAlertConditionShelve>

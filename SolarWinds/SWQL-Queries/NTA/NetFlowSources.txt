@@ -1,0 +1,11 @@
+SELECT
+f.Node.Caption AS [Node Caption],
+COUNT(f.Interface.Caption) AS [Interface Count]
+FROM
+Orion.Netflow.Source AS f
+WHERE
+f.Enabled = TRUE
+GROUP BY
+f.Node.Caption
+ORDER BY
+[Interface Count] DESC

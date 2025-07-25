@@ -1,0 +1,2 @@
+${N=SwisEntity;M=CustomPoller.UniqueName} set to ${N=SwisEntity;M=CustomPollerStatusScalar.Status}
+

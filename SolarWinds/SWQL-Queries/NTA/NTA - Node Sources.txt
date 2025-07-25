@@ -1,0 +1,7 @@
+-- Counts the total number of node sources in Orion Netflow, ensuring each counted node source has a non-empty caption
+SELECT 
+    COUNT(ns.Node.Caption) AS [Count of Node Sources]  -- Provides a count of non-null and non-empty node captions
+FROM 
+    Orion.Netflow.NodeSources AS ns
+WHERE
+    ns.Node.Caption IS NOT NULL AND ns.Node.Caption != '';  -- Filters out records with null or empty node captions

@@ -1,0 +1,8 @@
+-- Select the total number of configuration change templates from the Cirrus.ConfigSnippets table
+
+SELECT 
+  'Config Change Templates' AS [Name],  -- Static label for the query result, representing the entity being counted
+  COUNT(ID) AS [Total]                  -- Count the total number of entries in the ConfigSnippets table
+
+FROM 
+  Cirrus.ConfigSnippets                 -- Table containing configuration snippets (templates)

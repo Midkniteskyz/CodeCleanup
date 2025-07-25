@@ -1,0 +1,24 @@
+SELECT 
+sa.ServiceName as [Service name]
+,sa.ProbeName as [From]
+,case when enabled = 0 then 'Disabled'
+      when sa.Probe.Status= 0 then    'Unknown'
+      when sa.Probe.Status = 1 then   'Up'
+      when sa.Probe.Status = 2 then   'Warning'
+      when sa.Probe.Status = 100 then 'Critical'
+      when sa.Probe.Status = 102 then  'DNSError'
+      when sa.Probe.Status = 103 then 'HostUnreachable'
+      when sa.Probe.Status = 104 then 'PortClosed'
+      when sa.Probe.Status = 101 then 'ProbeDown'
+	  when sa.Probe.Status = 106 then 'UnsupportedOS'
+      when sa.Probe.Status = 107 then 'gentFailed'
+      when sa.Probe.Status = 108 then 'JobFailure'
+      when sa.Probe.Status = 109 then 'NotLicensed'
+	  end as [Status]
+,case when  MONTHDIFF(tolocal(lastprobetime),getdate())>1 then concat(MONTHDIFF(tolocal(lastprobetime),getdate()),' months ago')
+      when  dayDIFF(tolocal(lastprobetime),getdate())>1 then concat(dayDIFF(tolocal(lastprobetime),getdate()),' days ago')
+      when  hourDIFF(tolocal(lastprobetime),getdate())>1 then concat(hourDIFF(tolocal(lastprobetime),getdate()),' hours ago')
+ else concat(MINUTEDIFF(tolocal(lastprobetime),getdate()),' minutes ago')
+ end as [Last Probed]
+FROM Orion.NetPath.ServiceAssignments sa
+

@@ -1,0 +1,4 @@
+SELECT 
+    COUNT(DISTINCT BaselineID) AS [Number of Baselines]  -- Counting distinct BaselineIDs and labeling the column
+FROM 
+    Orion.SCM.Baseline;  -- Specify the table where BaselineIDs are stored

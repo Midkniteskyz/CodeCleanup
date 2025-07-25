@@ -1,0 +1,26 @@
+<b>Alert Information</b>
+<b>Alert Name:</b> ${N=Alerting;M=AlertName}
+<b>Alert Message:</b> ${N=Alerting;M=AlertMessage}
+<b>Severity:</b> ${N=Alerting;M=Severity}
+<b>Alert Triggered On:</b> ${N=Alerting;M=AlertTriggerTime;F=DateTime}
+<b>Alert Details Link:</b> ${N=Alerting;M=AlertDetailsUrl}
+<b>Acknowledgement Link:</b> ${N=Alerting;M=AcknowledgeUrl}
+<b>Polling Engine:</b> ${N=SwisEntity;M=Engine.ServerName}
+<hr><b>Node Details</b>
+<b>Node Name:</b> ${N=SwisEntity;M=Node.Caption}
+<b>IP Address:</b> ${N=SwisEntity;M=Node.IP_Address}
+<b>Status:</b> ${N=SwisEntity;M=Node.Status;F=Status}
+<b>Machine Vendor:</b> ${N=SwisEntity;M=Node.Vendor}
+<b>Machine Type:</b> ${N=SwisEntity;M=Node.MachineType}
+<hr><b>CPU Details</b>
+<b>Current CPU Load:</b> ${N=SwisEntity;M=Node.CPULoad;F=Percent}
+<hr><b>Memory Details</b>
+<b>Memory Usage:</b> ${N=SwisEntity;M=Node.PercentMemoryUsed;F=Percent}
+<b>Total Memory:</b> ${N=SwisEntity;M=Node.TotalMemory;F=Bytes}
+<hr><b>Volume Details</b>
+<b>Volume Caption:</b> ${N=SwisEntity;M=Caption}
+<b>Volume Name:</b> ${N=SwisEntity;M=FullName}
+<b>Volume Status:</b> ${N=SwisEntity;M=Status;F=Status}
+<b>Volume Size:</b> ${N=SwisEntity;M=VolumeSize;F=Bytes}
+<b>Volume Usage:</b> ${N=SwisEntity;M=VolumePercentUsed;F=Percent}
+<b>Volume Remaining:</b> ${N=SwisEntity;M=VolumeSpaceAvailable;F=Bytes}

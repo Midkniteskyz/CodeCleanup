@@ -1,0 +1,8 @@
+-- Counts the number of enabled and disabled protocols in Orion Netflow
+SELECT 
+    Enabled, 
+    COUNT(*) AS [Count]
+FROM 
+    Orion.Netflow.Protocols
+GROUP BY 
+    Enabled;

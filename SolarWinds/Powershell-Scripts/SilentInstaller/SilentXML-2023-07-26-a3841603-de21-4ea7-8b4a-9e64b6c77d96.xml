@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SilentConfig>
+  <InstallerConfiguration>
+    <AdvancedInstallMode>True</AdvancedInstallMode>
+    <SkipConfigurationWizardRun>False</SkipConfigurationWizardRun>
+    <InstallPath>C:\Program Files\SolarWinds\Orion</InstallPath>
+  </InstallerConfiguration>
+  <Host>
+    <Info>
+      <Website>
+        <Port>80</Port>
+        <LaunchWebConsole>false</LaunchWebConsole>
+        <ApplicationName>SolarWinds NetPerfMon</ApplicationName>
+        <ConfigurationSkipped_IISNotInstalled>false</ConfigurationSkipped_IISNotInstalled>
+        <Address>(All Unassigned)</Address>
+        <Folder>C:\InetPub\SolarWinds</Folder>
+        <EnableWindowsLogin>true</EnableWindowsLogin>
+      </Website>
+      <ReconfigureServices>true</ReconfigureServices>
+      <ReconfigurePermissions>true</ReconfigurePermissions>
+      <OrionLogConfiguration>
+        <StorageConfig>
+          <DatabaseName>SolarWindsOrionLog</DatabaseName>
+          <RemoveServiceDependencies>false</RemoveServiceDependencies>
+          <DatabasePath>
+          </DatabasePath>
+          <SAPassword>
+          </SAPassword>
+          <CreateNewDatabase>True</CreateNewDatabase>
+          <FailureInfo>
+          </FailureInfo>
+          <NeedToChangeSAPassword>false</NeedToChangeSAPassword>
+          <ServerName>127.0.0.1</ServerName>
+          <AccountType>NewSql</AccountType>
+          <UseExistingSqlAccount>False</UseExistingSqlAccount>
+          <UseSQLSecurity>true</UseSQLSecurity>
+          <NeedSQLServerSecurity>false</NeedSQLServerSecurity>
+          <UserPassword>Password</UserPassword>
+          <AddServiceDependencies>false</AddServiceDependencies>
+          <Account>SolarWindsOrionDatabaseUser</Account>
+          <AccountPassword>a</AccountPassword>
+          <User>sa</User>
+          <InstanceName>
+          </InstanceName>
+        </StorageConfig>
+      </OrionLogConfiguration>
+      <Database>
+        <InstanceName>
+        </InstanceName>
+        <NeedToChangeSAPassword>false</NeedToChangeSAPassword>
+        <UseSQLSecurity>true</UseSQLSecurity>
+        <AccountType>ExistingSql</AccountType>
+        <NeedSQLServerSecurity>false</NeedSQLServerSecurity>
+        <DatabasePath>
+        </DatabasePath>
+        <User>sa</User>
+        <UseExistingSqlAccount>False</UseExistingSqlAccount>
+        <ServerName>127.0.0.1</ServerName>
+        <RemoveServiceDependencies>false</RemoveServiceDependencies>
+        <AccountPassword>a</AccountPassword>
+        <AddServiceDependencies>false</AddServiceDependencies>
+        <UserPassword>Password</UserPassword>
+        <DatabaseName>SolarWindsOrion</DatabaseName>
+        <CreateNewDatabase>False</CreateNewDatabase>
+        <FailureInfo>
+        </FailureInfo>
+        <Account>SolarWindsOrionDatabaseUser</Account>
+      </Database>
+      <ReconfigureWebsite>true</ReconfigureWebsite>
+      <ReconfigureDatabase>true</ReconfigureDatabase>
+      <NetFlowConfiguration>
+        <FlowStorageConfig>
+          <AccountPassword>123</AccountPassword>
+          <UseSQLSecurity>True</UseSQLSecurity>
+          <ServerName>127.0.0.1</ServerName>
+          <InstanceName>
+          </InstanceName>
+          <DatabasePath>
+          </DatabasePath>
+          <CreateNewDatabase>True</CreateNewDatabase>
+          <DatabaseName>SolarWindsFlowStorage</DatabaseName>
+          <AccountType>NewSql</AccountType>
+          <UseExistingSqlAccount>False</UseExistingSqlAccount>
+          <Account>SolarWindsNtaDatabaseUser</Account>
+          <UserPassword>Password1</UserPassword>
+          <User>sa</User>
+        </FlowStorageConfig>
+      </NetFlowConfiguration>
+    </Info>
+  </Host>
+  <Plugins>
+    <Plugin Assembly="SolarWinds.ConfigurationWizard.Plugin.LogMgmt" FactoryType="SolarWinds.ConfigurationWizard.Plugin.LogMgmt.SilentConfigureFactory" />
+    <Plugin Assembly="SolarWinds.ConfigurationWizard.Plugin.NetFlow" FactoryType="SolarWinds.ConfigurationWizard.Plugin.NetFlow.SilentMode.NetFlowSilentConfigureFactory" />
+  </Plugins>
+</SilentConfig>

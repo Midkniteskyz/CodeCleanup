@@ -1,0 +1,8 @@
+${N=SwisEntity;M=FullyQualifiedName} is ${N=SwisEntity;M=Status;F=Status}
+
+Manufacturer: ${N=SwisEntity;M=HardwareInfo.Manufacturer}
+Model: ${N=SwisEntity;M=HardwareInfo.Model}
+Last Poll Time: ${N=SwisEntity;M=HardwareInfo.LastPollTime}
+Last Poll Message: ${N=SwisEntity;M=HardwareInfo.LastPollMessage}
+ServiceTag: ${N=SwisEntity;M=HardwareInfo.ServiceTag}
+Disabled: ${N=SwisEntity;M=HardwareInfo.IsDisabled;F=TrueFalse}

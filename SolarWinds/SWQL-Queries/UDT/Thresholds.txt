@@ -1,0 +1,29 @@
+SELECT 
+    -- Extracting the name portion before ' - ' from the Name column
+    SUBSTRING(Name, 1, CharIndex(' - ', Name)) AS [Name], 
+
+    -- Maximum current critical setting where Name contains 'high'
+    MAX(CASE
+        WHEN Name LIKE '%high%' THEN CONCAT(CurrentValue, Units)
+    END) AS [Current Critical Setting],
+
+    -- Maximum default critical setting where Name contains 'high'
+    MAX(CASE
+        WHEN Name LIKE '%high%' AND CurrentValue <> DefaultValue THEN CONCAT(ToString(DefaultValue), Units)
+        WHEN Name LIKE '%high%' AND CurrentValue = DefaultValue THEN 'Same'
+    END) AS [Default Critical Setting],
+
+    -- Maximum current warning setting where Name contains 'Warning'
+    MAX(CASE
+        WHEN Name LIKE '%Warning%' THEN CONCAT(CurrentValue, Units)
+    END) AS [Current Warning Setting],
+
+    -- Maximum default warning setting where Name contains 'Warning'
+    MAX(CASE
+        WHEN Name LIKE '%Warning%' AND CurrentValue <> DefaultValue THEN CONCAT(ToString(DefaultValue), Units)
+        WHEN Name LIKE '%Warning%' AND CurrentValue = DefaultValue THEN 'Same'
+    END) AS [Default Warning Setting]
+
+FROM Orion.Settings
+WHERE SettingID LIKE '%udt%'
+GROUP BY SUBSTRING(Name, 1, CharIndex(' - ', Name))

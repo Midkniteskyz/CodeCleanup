@@ -1,0 +1,13 @@
+SELECT 
+  -- Device Vendor
+  Nodes.Vendor AS [Vendor],
+  -- Count of devices by vendor
+  COUNT(Nodes.Vendor) AS [Total Devices],
+  -- Count of monitored ports by vendor
+  COUNT(Ports.IsMonitored) AS [Total Ports Monitored]
+FROM 
+  Orion.Nodes AS Nodes
+JOIN 
+  Orion.UDT.Port AS Ports ON Ports.nodeid = Nodes.nodeid
+GROUP BY 
+  Nodes.Vendor;

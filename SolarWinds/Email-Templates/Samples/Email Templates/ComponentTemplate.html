@@ -1,0 +1,67 @@
+<body>
+<header style="background-color: #f8f9fa; text-align: center; border-bottom: 1px solid #e0e0e0; margin: 0; padding: 10px 0;">
+    <h2 style="font-size: 24px; color: #333; margin: 0;">Alert Information</h2>
+</header>
+
+<div style="font-family: Arial, sans-serif; padding: 10px; color: #333; margin: 0;">
+    <p style="margin: 0; padding: 2px 0;"><b>Alert Name:</b> ${N=Alerting;M=AlertName}</p>
+    <p style="margin: 0; padding: 2px 0;"><b>Alert Message:</b> ${N=Alerting;M=AlertMessage}</p>
+    <p style="margin: 0; padding: 2px 0;"><b>Severity:</b> ${N=Alerting;M=Severity}</p>
+    <p style="margin: 0; padding: 2px 0;"><b>Alert Triggered On:</b> ${N=Alerting;M=AlertTriggerTime;F=DateTime}</p>
+    <p style="margin: 0; padding: 2px 0;"><b>Alert Details Link:</b> <a href="https://<localhost>:443/Orion/NetPerfMon/ActiveAlertDetails.aspx?NetObject=AAT:${N=Alerting;M=AlertActiveID}" target="_blank">View Details</a></p>
+    <p style="margin: 0; padding: 2px 0;"><b>Polling Engine:</b> ${N=SwisEntity;M=Application.Node.Engine.ServerName}</p>
+</div>
+
+<!-- Application -->
+<header style="background-color: #f8f9fa; text-align: center; border-bottom: 1px solid #e0e0e0; margin: 0; padding: 10px 0;">
+    <h2 style="font-size: 24px; color: #333; margin: 0;">Application Info</h2>
+</header>
+<div style="font-family: Arial, sans-serif; padding: 10px; color: #333; margin: 0;">
+<p style="margin: 0; padding: 2px 0;"><b>Application Name:</b> ${N=SwisEntity;M=Application.ApplicationAlert.ApplicationName}</p>
+<p style="margin: 0; padding: 2px 0;"><b>Application Status:</b> ${N=SwisEntity;M=Application.Status;F=Status}</p>
+<p style="margin: 0; padding: 2px 0;"><b>Application Details Link:</b> <a href="https://<localhost>:443/Orion/APM/ApplicationDetails.aspx?NetObject=AA:${N=SwisEntity;M=Application.ApplicationID}" target="_blank">View Details</a></p>
+
+</div>
+
+<!-- Component -->
+<header style="background-color: #f8f9fa; text-align: center; border-bottom: 1px solid #e0e0e0; margin: 0; padding: 10px 0;">
+    <h2 style="font-size: 24px; color: #333; margin: 0;">Component Info</h2>
+</header>
+<div style="font-family: Arial, sans-serif; padding: 10px; color: #333; margin: 0;">
+<p style="margin: 0; padding: 2px 0;"><b>Component Name:</b> ${N=SwisEntity;M=ComponentAlert.ComponentName}</p>
+<p style="margin: 0; padding: 2px 0;"><b>Component Status:</b> ${N=SwisEntity;M=Status;F=Status}</p>
+<p style="margin: 0; padding: 2px 0;"><b>Component Details Link:</b> <a href="https://<localhost>:443/Orion/APM/MonitorDetails.aspx?NetObject=AM:${N=SwisEntity;M=ComponentID}" target="_blank">View Details</a></p>
+</div>
+
+<!-- Node -->
+<header style="background-color: #f8f9fa; text-align: center; border-bottom: 1px solid #e0e0e0; margin: 0; padding: 10px 0;">
+    <h2 style="font-size: 24px; color: #333; margin: 0;">Node Details</h2>
+</header>
+
+<div style="font-family: Arial, sans-serif; padding: 10px; color: #333; margin: 0;">
+    <p style="margin: 0; padding: 2px 0;"><b>Node Name:</b> ${N=SwisEntity;M=Application.Node.Caption} </p>
+    <p style="margin: 0; padding: 2px 0;"><b>IP Address:</b> ${N=SwisEntity;M=Application.Node.IP_Address}</p>
+    <p style="margin: 0; padding: 2px 0;"><b>Status:</b> ${N=SwisEntity;M=Application.Node.Status;F=Status} </p>
+    <p style="margin: 0; padding: 2px 0;"><b>Machine Vendor:</b> ${N=SwisEntity;M=Application.Node.Vendor} </p>
+    <p style="margin: 0; padding: 2px 0;"><b>Machine Type:</b> ${N=SwisEntity;M=Application.Node.MachineType}</p>
+    <p style="margin: 0; padding: 2px 0;"><b>Node Details Link:</b> <a href="https://<localhost>:443/NetPerfMon/NodeDetails.aspx?NetObject=N:${N=SwisEntity;M=Application.Node.NodeID}" target="_blank">View Details</a></p>
+</div>
+
+
+<!-- CPU -->
+<header style="background-color: #f8f9fa; text-align: center; border-bottom: 1px solid #e0e0e0; margin: 0; padding: 10px 0;">
+    <h2 style="font-size: 24px; color: #333; margin: 0;">CPU Info</h2>
+</header>
+<div style="font-family: Arial, sans-serif; padding: 10px; color: #333; margin: 0;">
+    <p style="margin: 0; padding: 2px 0;"><b>Current CPU Load:</b> ${N=SwisEntity;M=Application.Node.CPULoad;F=Percent}</p>
+</div>
+
+<!-- Memory -->
+<header style="background-color: #f8f9fa; text-align: center; border-bottom: 1px solid #e0e0e0; margin: 0; padding: 10px 0;">
+    <h2 style="font-size: 24px; color: #333; margin: 0;">Memory Details</h2>
+</header>
+<div style="font-family: Arial, sans-serif; padding: 10px; color: #333; margin: 0;">
+    <p style="margin: 0; padding: 2px 0;"><b>Memory Usage:</b> ${N=SwisEntity;M=Application.Node.PercentMemoryUsed;F=Percent}</p>
+<p style="margin: 0; padding: 2px 0;"><b>Total Memory:</b> ${N=SwisEntity;M=Application.Node.TotalMemory;F=Bytes}</p>
+</div>
+</body>

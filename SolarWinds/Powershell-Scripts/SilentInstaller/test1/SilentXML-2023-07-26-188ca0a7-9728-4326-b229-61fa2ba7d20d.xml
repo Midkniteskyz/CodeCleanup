@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SilentConfig>
+  <InstallerConfiguration>
+    <Database.AccountType>ExistingSQL</Database.AccountType>
+    <Database.SqlServerAuthenticationType>WindowsAuthentication</Database.SqlServerAuthenticationType>
+  </InstallerConfiguration>
+  <Host>
+    <Info>
+      <Database>
+        <AccountType>ExistingSQL</AccountType>
+        <SqlServerAuthenticationType>WindowsAuthentication</SqlServerAuthenticationType>
+      </Database>
+    </Info>
+  </Host>
+</SilentConfig>

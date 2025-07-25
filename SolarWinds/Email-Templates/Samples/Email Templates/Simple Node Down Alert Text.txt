@@ -1,0 +1,38 @@
+Simple Node Down Alert Text
+
+-----Trigger-----
+<b>Alert Information</b>
+Alert Name: ${N=Alerting;M=AlertName}
+Severity: ${N=Alerting;M=Severity}
+Alert Triggered On: ${N=Alerting;M=AlertTriggerTime;F=DateTime}
+Total Down Time: ${SQL: SELECT CONCAT(${N=Alerting;M=DownTime} / 1440, ' days, ',(${N=Alerting;M=DownTime} % 1440) / 60, ' hours, ',${N=Alerting;M=DownTime} % 60, ' minutes') AS FormattedTime;}
+<a href="${N=Alerting;M=AlertDetailsUrl}">Alert Details Link</a>
+<a href="${N=Alerting;M=AcknowledgeUrl}">Acknowledge Alert Link</a>
+Polled From: ${N=SwisEntity;M=Engine.ServerName}
+
+<b>Node Details</b>
+Node Name: <a href="${N=SwisEntity;M=DetailsUrl}">${N=SwisEntity;M=Caption}</a>
+IP Address: ${N=SwisEntity;M=IP_Address}
+Status: ${N=SwisEntity;M=Status;F=Status}
+Machine Vendor: ${N=SwisEntity;M=Vendor}
+Machine Type: ${N=SwisEntity;M=MachineType}
+
+-----Reset-----
+Alert Information
+Alert Name: ${N=Alerting;M=AlertName}
+Severity: ${N=Alerting;M=Severity}
+Alert Triggered On: ${N=Alerting;M=AlertTriggerTime;F=DateTime}
+Total Down Time: ${SQL: SELECT CONCAT(${N=Alerting;M=DownTime} / 1440, ' days, ',(${N=Alerting;M=DownTime} % 1440) / 60, ' hours, ',${N=Alerting;M=DownTime} % 60, ' minutes') AS FormattedTime;}
+Acknowledged: ${N=Alerting;M=Acknowledged}
+Acknowledged Time: ${N=Alerting;M=AcknowledgedTime;F=DateTime}
+Acknowledged By: ${N=Alerting;M=AcknowledgedBy}
+<a href="${N=Alerting;M=AlertDetailsUrl}">Alert Details Link</a>
+Polled From: ${N=SwisEntity;M=Engine.ServerName}
+
+Node Details
+Node Name: <a href="${N=SwisEntity;M=DetailsUrl}">${N=SwisEntity;M=Caption}</a>
+IP Address: ${N=SwisEntity;M=IP_Address}
+Status: ${N=SwisEntity;M=Status;F=Status}
+Machine Vendor: ${N=SwisEntity;M=Vendor}
+Machine Type: ${N=SwisEntity;M=MachineType}
+

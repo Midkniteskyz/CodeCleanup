@@ -1,0 +1,45 @@
+<!-- Simple layout -->
+<div style="font-family: sans-serif; padding: 1em; max-width: 600px; margin: auto;">
+  <h3>SWQL Test Widget</h3>
+  <p id="status">Querying...</p>
+  <pre id="result" style="background: #f0f0f0; padding: 1em; border-radius: 5px; max-height: 400px; overflow: auto;">Loading...</pre>
+</div>
+
+<script>
+  // === SWQL TEST QUERY ===
+  const swql = `
+    SELECT TOP 5 NodeID, Caption, IPAddress
+    FROM Orion.Nodes
+    ORDER BY NodeID DESC
+  `;
+
+  const params = JSON.stringify({
+    query: swql,
+    parameters: {}
+  });
+
+  // === AJAX CALL ===
+  $.ajax({
+    type: "POST",
+    url: "/Orion/Services/Information.asmx/QueryWithParameters",
+    data: params,
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function (response) {
+      const rows = response.d.Rows;
+      if (!rows.length) {
+        $('#status').text('✅ Query ran, but no data returned.');
+        $('#result').text('[]');
+        return;
+      }
+
+      $('#status').text(`✅ Query successful! Returned ${rows.length} row(s):`);
+      $('#result').text(JSON.stringify(rows, null, 2)); // Pretty print
+    },
+    error: function (xhr, status, error) {
+      $('#status').text("❌ Query failed.");
+      $('#result').text(error);
+      console.error("SWIS Query Error:", error);
+    }
+  });
+</script>

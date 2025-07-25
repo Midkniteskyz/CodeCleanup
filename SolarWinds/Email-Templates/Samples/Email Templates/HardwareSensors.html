@@ -1,0 +1,34 @@
+${N=SwisEntity;M=HardwareCategoryStatus.FullyQualifiedName} is ${N=SwisEntity;M=HardwareCategoryStatus.StatusDescription}.
+
+Alert Information
+Alert Name: ${N=Alerting;M=AlertName}
+Alert Message: ${N=Alerting;M=AlertMessage}
+Severity: ${N=Alerting;M=Severity}
+Alert Triggered On: ${N=Alerting;M=AlertTriggerTime;F=DateTime}
+Alert Details Link: ${N=Alerting;M=AlertDetailsUrl}
+Acknowledgement Link: ${N=Alerting;M=AcknowledgeUrl}
+
+${N=SwisEntity;M=HardwareInfo.FullyQualifiedName}
+Hardware Problems: ${N=SwisEntity;M=HardwareInfo.CategoriesWithProblems}
+Manufacturer: ${N=SwisEntity;M=HardwareInfo.Manufacturer}
+Model: ${N=SwisEntity;M=HardwareInfo.Model}
+Last Poll Time: ${N=SwisEntity;M=HardwareInfo.LastPollTime}
+Last Poll Message: ${N=SwisEntity;M=HardwareInfo.LastPollMessage}
+ServiceTag: ${N=SwisEntity;M=HardwareInfo.ServiceTag}
+Disabled: ${N=SwisEntity;M=HardwareInfo.IsDisabled;F=TrueFalse}
+
+${N=SwisEntity;M=HardwareCategoryStatus.FullyQualifiedName}
+Category: ${N=SwisEntity;M=HardwareCategoryStatus.HardwareCategoryName}
+Items With Problems: ${N=SwisEntity;M=HardwareCategoryStatus.ItemsWithProblems}
+Items With Status: ${N=SwisEntity;M=HardwareCategoryStatus.ItemsWithStatus}
+Status Description: ${N=SwisEntity;M=HardwareCategoryStatus.StatusDescription}
+
+${N=SwisEntity;M=FullyQualifiedName}
+Name: ${N=SwisEntity;M=Name}
+Unique Name: ${N=SwisEntity;M=UniqueName}
+Value: ${N=SwisEntity;M=Value} ${N=SwisEntity;M=HardwareUnitDescription}
+Original Status: ${N=SwisEntity;M=OriginalStatus}
+Current Status: ${N=SwisEntity;M=Status;F=Status}
+Status Description: ${N=SwisEntity;M=StatusDescription}
+Message: ${N=SwisEntity;M=Message}
+Disabled: ${N=SwisEntity;M=IsDisabled;F=TrueFalse}
