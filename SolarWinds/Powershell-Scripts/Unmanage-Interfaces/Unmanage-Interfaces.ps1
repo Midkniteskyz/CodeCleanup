@@ -241,9 +241,6 @@ function Set-InterfaceManagementState {
 try {
     Write-Host "=== Orion Interface Management Script ===" -ForegroundColor Cyan
 
-    $OrionServer = 'enghco.loop1.com'
-    $OrionUserName = 'L1SENG\RWoolsey'
-
     # Connect to Orion
     $swis = Connect-ToOrion -Server $OrionServer -Username $OrionUserName -Password $OrionPassword
 
