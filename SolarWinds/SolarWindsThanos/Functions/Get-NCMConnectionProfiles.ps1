@@ -105,9 +105,9 @@ function Get-NCMConnectionProfiles {
         $resultsTable += [pscustomobject][ordered]@{
             ProfileName = $_.Name.InnerXml
             UserName = $_.ConnectionData.UserName.InnerXml
-            Password = $_.ConnectionData.Password.InnerXml
+            Password = Decrypt-Data -swis $swis -data (Get-SwisData -SwisConnection $swis -Query "SELECT TOP 1 Password FROM NCM.NodeProperties WHERE connectionprofile = $($_.ID[1])")
             EnableLevel = [System.Web.HttpUtility]::HtmlDecode($_.ConnectionData.EnableLevel.InnerXml)
-            EnablePassword = $_.ConnectionData.EnablePassword.InnerXml
+            EnablePassword = Decrypt-Data -swis $swis -data (Get-SwisData -SwisConnection $swis -Query "SELECT TOP 1 EnablePassword FROM NCM.NodeProperties WHERE connectionprofile = $($_.ID[1])")
             ExecuteScriptProtocol = $_.ExecuteScriptProtocol.InnerXml
             RequestConfigProtocol = $_.RequestConfigProtocol.InnerXml
             TransferConfigProtocol = $_.TransferConfigProtocol.InnerXml
@@ -121,11 +121,44 @@ function Get-NCMConnectionProfiles {
     return $resultsTable | Format-List
 }
 
+function Decrypt-Data {
+    param (
+        $data,
+        $swis
+    )
+    
+    $decryptedData = Invoke-SwisVerb $swis 'Cirrus.Settings' 'DecryptData' @("$data")
 
-$Username = 'L1SENG\RWoolsey'
-$Password = 'W@shingt0n22!'
-$MPE = 'hco.loop1.ziti'
+    return $decryptedData.InnerText
+}
+
+
+$Username = ''
+$Password = ''
+$MPE = ''
 
 $swis = Connect-SolarWinds -Hostname $MPE -Username $Username -Password $Password
+
+# Get the global Settings for NCM
+$NCMGlobalSettingsData = Get-SwisData -SwisConnection $swis -Query "SELECT SettingName,SettingValue,Uri FROM Cirrus.GlobalSettings"
+
+# Show global settings 
+Write-Host "----------Global Settings----------"
+
+$NCMGlobalSettingsObject = [PSCustomObject]@{
+    Username = Decrypt-Data -swis $swis -data ($NCMGlobalSettings | Where-Object SettingName -like 'GlobalUsername').SettingValue
+    Password = Decrypt-Data -swis $swis -data ($NCMGlobalSettings | Where-Object SettingName -like 'GlobalPassword').SettingValue
+    "Enable Level" = ($NCMGlobalSettings | Where-Object SettingName -like 'GlobalEnableLevel').SettingValue
+    "Execute Commands and Scripts" = ($NCMGlobalSettings | Where-Object SettingName -like 'GlobalExecProtocol').SettingValue
+    "Config Request" = ($NCMGlobalSettings | Where-Object SettingName -like 'GlobalConfigRequestProtocol').SettingValue
+    "Transfer Configs" = ($NCMGlobalSettings | Where-Object SettingName -like 'GlobalConfigTransferProtocol').SettingValue
+    "Telnet Port" = ($NCMGlobalSettings | Where-Object SettingName -like 'GlobalTelnetPort').SettingValue
+    "SSH Port" = ($NCMGlobalSettings | Where-Object SettingName -like 'GlobalSSHPort').SettingValue
+}
+
+$NCMGlobalSettingsObject
+
+# Show global settings 
+Write-Host "----------Individual Settings----------"
 
 Get-NCMConnectionProfiles 
